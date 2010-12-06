@@ -4,6 +4,8 @@
 #include <QTextStream>
 #include <stdexcept>
 
+#include "random.h"
+
 Chromosom::Chromosom()
     : _parametry() {
 }
@@ -26,6 +28,16 @@ Chromosom Chromosom::wczytaj(QString nazwa_pliku) {
     while(ilosc) {
         wejscie >> aktualny;
         nowy._parametry.append(aktualny);
+    }
+    return nowy;
+}
+
+Chromosom Chromosom::losuj(const OgraniczeniaF1& ogr) {
+    Chromosom nowy;
+    Random rand;
+    nowy._parametry.reserve(ogr.ileParametrow());
+    for(int i = 0; i < ogr.ileParametrow(); ++i) {
+        nowy._parametry[i] = ogr.Parametr(i, rand.nastInt(ogr.ileOgraniczen()) - 1);
     }
     return nowy;
 }

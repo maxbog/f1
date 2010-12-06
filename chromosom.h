@@ -4,6 +4,8 @@
 #include <QString>
 #include <QVector>
 
+#include "parametry.h"
+
 class Chromosom
 {
 public:
@@ -11,6 +13,7 @@ public:
     Chromosom(const Chromosom &inny);
 
     static Chromosom wczytaj(QString nazwa_pliku);
+    static Chromosom losuj(const OgraniczeniaF1&);
 
 private:
     QVector<int> _parametry;
