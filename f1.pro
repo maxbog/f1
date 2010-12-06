@@ -13,10 +13,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     random.cpp \
-    chromosom.cpp
+    chromosom.cpp \
+    parametry.cpp
 
 HEADERS  += mainwindow.h \
     random.h \
-    chromosom.h
+    chromosom.h \
+    parametry.h
 
 FORMS    += mainwindow.ui
