@@ -28,7 +28,7 @@ public:
     OgraniczeniaF1(const OgraniczeniaF1&);
     ~OgraniczeniaF1() { }
     void Wczytaj(QString);
-    int ileOgraniczen() const { return ograniczenia_poj; }
+    int ileOgraniczen(int parametr) const { return wektOgraniczenia[parametr].size(); }
     int ileParametrow() const { return parametry_poj; }
     int Parametr(int,int) const;
 

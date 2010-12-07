@@ -37,7 +37,7 @@ Chromosom Chromosom::losuj(const OgraniczeniaF1& ogr) {
     Random rand;
     nowy._parametry.reserve(ogr.ileParametrow());
     for(int i = 0; i < ogr.ileParametrow(); ++i) {
-        nowy._parametry[i] = ogr.Parametr(i, rand.nastInt(ogr.ileOgraniczen() - 1));
+        nowy._parametry[i] = ogr.Parametr(i, rand.nastInt(ogr.ileOgraniczen(i) - 1));
     }
     return nowy;
 }
@@ -50,7 +50,7 @@ Chromosom Chromosom::mutacja(const OgraniczeniaF1& ogr, unsigned ileGenow) const
     while(ileGenow) {
         // ca³y wzór: rand.nastInt(_parametry.size() - 1 - (ileGenow - 1) - (nastepny + 1)) + nastepny + 1;
         nastepny = rand.nastInt(nowy._parametry.size() - ileGenow - nastepny - 1) + nastepny + 1;
-        nowy._parametry[nastepny] = ogr.Parametr(nastepny,rand.nastInt(ogr.ileOgraniczen()));
+        nowy._parametry[nastepny] = ogr.Parametr(nastepny,rand.nastInt(ogr.ileOgraniczen(nastepny)));
     }
     return nowy;
 }
