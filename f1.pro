@@ -14,11 +14,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     random.cpp \
     chromosom.cpp \
-    parametry.cpp
+    parametry.cpp \
+    symulacja.cpp
 
 HEADERS  += mainwindow.h \
     random.h \
     chromosom.h \
-    parametry.h
+    parametry.h \
+    symulacja.h
 
 FORMS    += mainwindow.ui
