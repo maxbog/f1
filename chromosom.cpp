@@ -28,6 +28,7 @@ Chromosom Chromosom::wczytaj(QString nazwa_pliku) {
     while(ilosc) {
         wejscie >> aktualny;
         nowy._parametry.append(aktualny);
+        --ilosc;
     }
     return nowy;
 }

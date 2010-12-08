@@ -61,6 +61,7 @@ void OgraniczeniaF1::Wczytaj(QString plik) {
     in >> parametry_poj;                          // liczba parametrow auta
     int a;                                        // dop wartosci1: wart1 wart2 ...
     for(int i=0;i<parametry_poj;++i) {            // dop wartosci2: wart 1 wart 2...
+        tmp.clear();
         in >> ograniczenia_poj;
         for(int j=0;j<ograniczenia_poj;++j) {
             in >> a;
