@@ -3,7 +3,11 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QTableWidget>
+#include <QVector>
+#include <QPair>
 #include "symulacja.h"
+#include "parametry.h"
 
 namespace Ui {
     class MainWindow;
@@ -21,6 +25,7 @@ public:
     QTimer timer;
 
 private slots:
+    void on_pushButton_2_clicked();
     void on_pushButton_6_clicked();
 
     void on_pushButton_5_clicked();
@@ -33,6 +38,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    OgraniczeniaF1 ograniczenia;
+    QVector<QPair<QTableWidgetItem,QTableWidgetItem> > ogr_dane;
 };
 
 #endif // MAINWINDOW_H
