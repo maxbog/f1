@@ -37,5 +37,19 @@ private:
     int ograniczenia_poj,parametry_poj;
 };
 
+class MacierzZaleznosci {
+public:
+    MacierzZaleznosci();
+    MacierzZaleznosci(const MacierzZaleznosci &);
+    ~MacierzZaleznosci() { }
+    void Wczytaj(QString);
+    int Parametr(int,int,int,int) const;
+
+private:
+    QVector<QVector<QVector <QVector <int> > > > wektZaleznosci;
+    QVector<int> wspDrogi, wspPoj;
+    int ograniczenia_poj,parametry_poj,parametry_drogi;
+};
+
 
 #endif // PARAMETRY_H
