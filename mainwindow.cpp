@@ -69,14 +69,17 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_pushButton_clicked() // wczytywanie trasy
 {
-    trasa.Wczytaj("trasa.txt");
-    ui->tabelkaTrasa->setColumnCount(trasa.ileOdcinkow());
-    ui->tabelkaTrasa->setRowCount(trasa.ileParametrow());
-
-    for(int i=0; i<trasa.ileOdcinkow(); ++i) {
-        for(int j=0; j<trasa.ileParametrow(); ++j) {
-            QTableWidgetItem *element = new QTableWidgetItem(QString::number(trasa.Parametr(i,j)),0);
-            ui->tabelkaTrasa->setItem(i,j,element);
+    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik trasy", ".", "Pliki tekstowe (*.txt)");
+    if(plik != "") {
+        trasa.Wczytaj(plik);
+        ui->tabelkaTrasa->setColumnCount(trasa.ileParametrow());
+        ui->tabelkaTrasa->setRowCount(trasa.ileOdcinkow());
+        for(int i=0; i<trasa.ileOdcinkow(); ++i) {
+            for(int j=0; j<trasa.ileParametrow(); ++j) {
+                ui->tabelkaTrasa->setColumnWidth(j,40);
+                QTableWidgetItem *element = new QTableWidgetItem(QString::number(trasa.Parametr(i,j)),0);
+                ui->tabelkaTrasa->setItem(i,j,element);
+            }
         }
     }
 }
