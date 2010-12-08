@@ -86,6 +86,17 @@ MacierzZaleznosci::MacierzZaleznosci(const MacierzZaleznosci & nowy):
 
 void MacierzZaleznosci::Wczytaj(QString plik) {
 
+    /* plik w postaci:
+       ilosc_paramterow_pojazdu ilosc_paramterow_drogi
+       nr_aktualnego_param_poj nr_aktualnego_param_drogi
+       ile_wsp_paramteru_pojazdu ile_wsp_parametru_drogi
+       dopuszczalne wartosci wspolczynnikow paramteru drogi
+       ograniczenie_param_poj1 czas1 czas2...
+       ograniczenie_param_poj2 czas1 czas2 ...
+       ...
+    */
+
+
     QFile file(plik);
     if(!file.open(QFile::ReadOnly)) {
         // TODO: jakiœ log/raportowanie b³êdów?
