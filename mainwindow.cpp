@@ -43,7 +43,6 @@ void MainWindow::tykniecie()
     symulacja.krok();
 }
 
-<<<<<<< HEAD
 void MainWindow::on_pushButton_2_clicked()
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik ograniczen", ".", "Pliki tekstowe (*.txt)");
@@ -65,8 +64,10 @@ void MainWindow::on_pushButton_2_clicked()
             ogr_dane[i].second = QTableWidgetItem(tmp);
             ui->tabelkaOgraniczenia->setItem(i, 1, &ogr_dane[i].second);
         }
-=======
-void MainWindow::on_pushButton_clicked() // wczytanie trasy
+    }
+}
+
+void MainWindow::on_pushButton_clicked() // wczytywanie trasy
 {
     trasa.Wczytaj("trasa.txt");
     ui->tabelkaTrasa->setColumnCount(trasa.ileOdcinkow());
@@ -77,7 +78,5 @@ void MainWindow::on_pushButton_clicked() // wczytanie trasy
             QTableWidgetItem *element = new QTableWidgetItem(QString::number(trasa.Parametr(i,j)),0);
             ui->tabelkaTrasa->setItem(i,j,element);
         }
-
->>>>>>> bd93f75a626c9940829636c6df2ea9e075e3c39f
     }
 }
