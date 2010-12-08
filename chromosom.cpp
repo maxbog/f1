@@ -71,3 +71,7 @@ QPair<Chromosom, Chromosom> Chromosom::krzyzuj(const Chromosom& inny, int miejsc
     }
     return nowy;
 }
+
+int Chromosom::Parametr(int i) const {
+    return _parametry.at(i);
+}

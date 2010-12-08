@@ -16,6 +16,8 @@ public:
     Chromosom mutacja(const OgraniczeniaF1& ogr, unsigned ileGenow = 1) const;
     QPair<Chromosom, Chromosom> krzyzuj(const Chromosom& inny, int miejsce = -1) const;
 
+    int Parametr(int) const;
+
     static Chromosom wczytaj(QString nazwa_pliku);
     static Chromosom losuj(const OgraniczeniaF1&);
 

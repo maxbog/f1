@@ -14,9 +14,11 @@ void Symulacja::krok() {
     ocen_populacje();
 }
 
-void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr) {
+void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr) {
     _ilosc_krokow = 0;
     _ogr = ogr;
+    _trasa = tr;
+    _zaleznosci = mzal;
     _populacja.clear();
     _oceny.clear();
     for(unsigned i = 0; i < wielkosc_populacji; ++i) {
@@ -25,7 +27,15 @@ void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr) 
     ocen_populacje();
 }
 int Symulacja::ocen_jeden(const Chromosom& chr) {
-    return 1;
+int czas=0;
+
+    for(int i=0; i<_ogr.ileParametrow(); ++i) {
+        for(int j=0; j< _trasa.ileOdcinkow(); ++j) {
+            for(int k=0; k< _trasa.ileParametrow(); ++k)
+                czas += _zaleznosci.Parametr(i,k,chr.Parametr(i),_trasa.Parametr(j,k));
+    }
+    }
+    return czas;
 }
 
 void Symulacja::ocen_populacje() {
