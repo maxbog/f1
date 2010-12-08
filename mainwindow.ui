@@ -49,7 +49,7 @@
      <string>Trasa:</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget_2">
+   <widget class="QTableWidget" name="tabelkaOgraniczenia">
     <property name="geometry">
      <rect>
       <x>280</x>
