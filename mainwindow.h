@@ -18,9 +18,11 @@ public:
     ~MainWindow();
 
     Symulacja symulacja;
+    Trasa trasa;
     QTimer timer;
 
 private slots:
+    void on_pushButton_clicked();
     void on_pushButton_6_clicked();
 
     void on_pushButton_5_clicked();
