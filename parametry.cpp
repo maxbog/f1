@@ -6,10 +6,10 @@
 Trasa::Trasa(): wektOdcinki() { }
 
 Trasa::Trasa(const Trasa & nowy):
-            wektOdcinki(nowy.wektOdcinki),
-            odcinki(nowy.odcinki),
-            parametry(nowy.parametry)
-            { }
+    wektOdcinki(nowy.wektOdcinki),
+    odcinki(nowy.odcinki),
+    parametry(nowy.parametry)
+{ }
 
 void Trasa::Wczytaj(QString plik) {
 
@@ -25,6 +25,7 @@ void Trasa::Wczytaj(QString plik) {
     in >> odcinki >> parametry;
     int a;
     for(int i=0;i<odcinki;++i) {
+        tmp.clear();
         for(int j=0;j<parametry;++j) {
             in >> a;
             tmp.append(a);
@@ -42,10 +43,10 @@ int Trasa::Parametr(int o, int p) const {
 OgraniczeniaF1::OgraniczeniaF1(): wektOgraniczenia() { }
 
 OgraniczeniaF1::OgraniczeniaF1(const OgraniczeniaF1 & nowy):
-               wektOgraniczenia(nowy.wektOgraniczenia),
-               ograniczenia_poj(nowy.ograniczenia_poj),
-               parametry_poj(nowy.parametry_poj)
-               { }
+    wektOgraniczenia(nowy.wektOgraniczenia),
+    ograniczenia_poj(nowy.ograniczenia_poj),
+    parametry_poj(nowy.parametry_poj)
+{ }
 
 void OgraniczeniaF1::Wczytaj(QString plik) {
 
@@ -61,6 +62,7 @@ void OgraniczeniaF1::Wczytaj(QString plik) {
     in >> parametry_poj;                          // liczba parametrow auta
     int a;                                        // dop wartosci1: wart1 wart2 ...
     for(int i=0;i<parametry_poj;++i) {            // dop wartosci2: wart 1 wart 2...
+        tmp.clear();
         in >> ograniczenia_poj;
         for(int j=0;j<ograniczenia_poj;++j) {
             in >> a;
@@ -78,11 +80,11 @@ int OgraniczeniaF1::Parametr(int i, int j) const {
 MacierzZaleznosci::MacierzZaleznosci(): wektZaleznosci() { }
 
 MacierzZaleznosci::MacierzZaleznosci(const MacierzZaleznosci & nowy):
-               wektZaleznosci(nowy.wektZaleznosci),
-               ograniczenia_poj(nowy.ograniczenia_poj),
-               parametry_poj(nowy.parametry_poj),
-               parametry_drogi(nowy.parametry_drogi)
-               { }
+    wektZaleznosci(nowy.wektZaleznosci),
+    ograniczenia_poj(nowy.ograniczenia_poj),
+    parametry_poj(nowy.parametry_poj),
+    parametry_drogi(nowy.parametry_drogi)
+{ }
 
 void MacierzZaleznosci::Wczytaj(QString plik) {
 
@@ -110,8 +112,6 @@ void MacierzZaleznosci::Wczytaj(QString plik) {
     int nr_param_drogi, nr_param_poj;
     int ile_wsp_drogi, ile_wsp_poj;
 
-    QVector<QVector <QVector <int> > > zaleznosci_droga;
-    zaleznosci_droga.resize(parametry_drogi);
     wektZaleznosci.resize(parametry_poj);
 
     for(int k=0;k<parametry_poj*parametry_drogi;++k) {
@@ -124,11 +124,12 @@ void MacierzZaleznosci::Wczytaj(QString plik) {
         wektZaleznosci[nr_param_poj].resize(parametry_drogi);
 
         for(int i=0;i<ile_wsp_drogi;i++) {
-                                        in >> a;
-                                        wspDrogi.append(a);
-                                        }
+            in >> a;
+            wspDrogi.append(a);
+        }
 
         for(int i=0;i<ile_wsp_poj;++i) {
+            wekt_czas.clear();
             in >> a;
             wspPoj.append(a);
             for(int j=0;j<ile_wsp_drogi;++j) {
@@ -139,7 +140,7 @@ void MacierzZaleznosci::Wczytaj(QString plik) {
         }
 
         wektZaleznosci[nr_param_poj][nr_param_drogi] = m_zaleznosci;
-}
+    }
 }
 
 int MacierzZaleznosci::Parametr(int param_poj,int param_droga,int wsp_poj,int wsp_drogi) const {

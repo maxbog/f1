@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
+#include "symulacja.h"
 
 namespace Ui {
     class MainWindow;
@@ -14,6 +16,20 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    Symulacja symulacja;
+    QTimer timer;
+
+private slots:
+    void on_pushButton_6_clicked();
+
+    void on_pushButton_5_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
+
+    void tykniecie();
 
 private:
     Ui::MainWindow *ui;

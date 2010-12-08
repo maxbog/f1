@@ -21,6 +21,8 @@ public:
     static Chromosom wczytaj(QString nazwa_pliku);
     static Chromosom losuj(const OgraniczeniaF1&);
 
+    int ileParametrow() const { return _parametry.size(); }
+
 private:
     QVector<int> _parametry;
 };
