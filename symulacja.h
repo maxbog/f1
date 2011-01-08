@@ -9,7 +9,7 @@ class Symulacja
 public:
     Symulacja();
     void krok();
-    void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&);
+    void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&, int rodzaj_selekcji);
     void ocen_populacje();
     int ocen_jeden(const Chromosom& chr);
     void selekcja();
@@ -22,6 +22,8 @@ private:
     Trasa _trasa;
     MacierzZaleznosci _zaleznosci;
     unsigned _ilosc_krokow;
+    int _rodzaj_selekcji;
+    void quicksort(QVector<int>&,int,int);
 };
 
 #endif // SYMULACJA_H
