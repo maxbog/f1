@@ -83,3 +83,27 @@ void MainWindow::on_pushButton_clicked() // wczytywanie trasy
         }
     }
 }
+
+void MainWindow::on_comboBox_activated(int )
+{
+    switch(ui->comboBox->currentIndex()) {
+    case 2: {
+            ui->label_8->setEnabled(true);
+            ui->label_8->setText("Prawd. wyboru");
+            ui->doubleSpinBox_2->setEnabled(true);
+            break;
+        }
+    case 1: {
+            ui->label_8->setEnabled(true);
+            ui->label_8->setText("% zwyciezcow rankingu");
+            ui->doubleSpinBox_2->setEnabled(true);
+            break;
+        }
+    default: {
+            ui->label_8->setEnabled(false);
+            ui->doubleSpinBox_2->setEnabled(false);
+            break;
+        }
+    }
+
+}

@@ -9,7 +9,8 @@ class Symulacja
 public:
     Symulacja();
     void krok();
-    void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&, int rodzaj_selekcji);
+    void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&,
+                 int rodzaj_selekcji, double p_turniejowe=1,double p_rankingowe=0.5);
     void ocen_populacje();
     int ocen_jeden(const Chromosom& chr);
     void selekcja();
@@ -23,6 +24,8 @@ private:
     MacierzZaleznosci _zaleznosci;
     unsigned _ilosc_krokow;
     int _rodzaj_selekcji;
+    double _p_turniejowe;
+    double _p_rankingowe;
     void quicksort(QVector<int>&,int,int);
 };
 
