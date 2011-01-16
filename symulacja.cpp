@@ -43,6 +43,7 @@ int Symulacja::ocen_jeden(const Chromosom& chr) {
 }
 
 void Symulacja::ocen_populacje() {
+    _oceny.clear();
     for(int i = 0; i < _populacja.size(); ++i) {
         _oceny.append(ocen_jeden(_populacja[i]));
     }
@@ -70,6 +71,7 @@ void Symulacja::selekcja() {
                 for(int j = 0; j < dystrybuanty.size(); ++j) {
                     if(los < dystrybuanty[j]) {
                         _populacja[i] = stara_populacja[j];
+                        break;
                     }
                 }
             }
@@ -78,7 +80,8 @@ void Symulacja::selekcja() {
 
     case 1: {   // rankingowa - prymitywna :P
             int ile_rodzicow = _populacja.size()*_p_rankingowe;
-            quicksort(_oceny,0,_oceny.size());
+            qSort(_oceny.begin(), _oceny.end(), qGreater<int>());
+            //quicksort(_oceny,0,_oceny.size());
             QVector<Chromosom> nowa_populacja;
             for(int i=0;i<ile_rodzicow;++i) nowa_populacja.append(_populacja[i]);
             _populacja = nowa_populacja;

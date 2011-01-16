@@ -3,7 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <stdexcept>
-
+#include <algorithm>
 #include "random.h"
 
 Chromosom::Chromosom()
@@ -45,13 +45,15 @@ Chromosom Chromosom::losuj(const OgraniczeniaF1& ogr) {
 
 Chromosom Chromosom::mutacja(const OgraniczeniaF1& ogr, unsigned ileGenow) const {
     Chromosom nowy(*this);
+    ileGenow = std::min((int)ileGenow, _parametry.size());
     Random rand;
     int nastepny = -1;
     // pêtelka gwarantuje, ¿e nie bêdzie dwukrotnej mutacji tego samego genu
     while(ileGenow) {
         // ca³y wzór: rand.nastInt(_parametry.size() - 1 - (ileGenow - 1) - (nastepny + 1)) + nastepny + 1;
-        nastepny = rand.nastInt(nowy._parametry.size() - ileGenow - nastepny - 1) + nastepny + 1;
-        nowy._parametry[nastepny] = ogr.Parametr(nastepny,rand.nastInt(ogr.ileOgraniczen(nastepny)));
+        nastepny = rand.nastInt(_parametry.size() - ileGenow - nastepny - 1) + nastepny + 1;
+        nowy._parametry[nastepny] = ogr.Parametr(nastepny,rand.nastInt(ogr.ileOgraniczen(nastepny)-1));
+        --ileGenow;
     }
     return nowy;
 }
