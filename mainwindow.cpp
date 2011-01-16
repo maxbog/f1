@@ -25,7 +25,7 @@ void MainWindow::on_pushButton_6_clicked()
 
 void MainWindow::on_pushButton_5_clicked()
 {
-    //symulacja.inicjuj(20, ograniczenia, zaleznosci, trasa);
+    symulacja.inicjuj(20, ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex());
 }
 
 void MainWindow::on_pushButton_3_clicked()
@@ -106,4 +106,12 @@ void MainWindow::on_comboBox_activated(int )
         }
     }
 
+}
+
+void MainWindow::on_pushButton_8_clicked()
+{
+    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik zale¿noœci", ".", "Pliki tekstowe (*.txt)");
+    if(plik != "") {
+        zaleznosci.Wczytaj(plik);
+    }
 }

@@ -21,11 +21,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    Symulacja symulacja;
-    Trasa trasa;
     QTimer timer;
 
 private slots:
+    void on_pushButton_8_clicked();
     void on_comboBox_activated(int );
     void on_pushButton_2_clicked();
     void on_pushButton_clicked();
@@ -42,6 +41,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     OgraniczeniaF1 ograniczenia;
+    Symulacja symulacja;
+    Trasa trasa;
+    MacierzZaleznosci zaleznosci;
     QVector<QPair<QTableWidgetItem,QTableWidgetItem> > ogr_dane;
 };
 

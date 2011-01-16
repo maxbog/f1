@@ -31,13 +31,13 @@ void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, 
     ocen_populacje();
 }
 int Symulacja::ocen_jeden(const Chromosom& chr) {
-int czas=0;
+    int czas=0;
 
     for(int i=0; i<_ogr.ileParametrow(); ++i) {
         for(int j=0; j< _trasa.ileOdcinkow(); ++j) {
             for(int k=0; k< _trasa.ileParametrow(); ++k)
                 czas += _zaleznosci.Parametr(i,k,chr.Parametr(i),_trasa.Parametr(j,k));
-    }
+        }
     }
     return czas;
 }
@@ -143,24 +143,24 @@ void Symulacja::krzyzowanie(double prawdopodobienstwo) {
 }
 
 void Symulacja::quicksort(QVector<int> & oceny, int left, int right) {
-     int i=left;
-     int j=right;
-     int x=oceny[(left+right)/2];
-     do{
-         while(oceny[i]<x) i++;
-         while(oceny[j]>x) j--;
-         if(i<=j){
-             int temp=oceny[i];
-             oceny[i]=oceny[j];
-             oceny[j]=temp;
-             Chromosom nowy(_populacja[i]);
-             _populacja[i] = _populacja[j];
-             _populacja[j] = nowy;
-             i++;
-             j--;
-         }
-     }while(i<=j);
-     if(left<j) quicksort(oceny,left,j);
-     if(right>i) quicksort(oceny,i,right);
+    int i=left;
+    int j=right;
+    int x=oceny[(left+right)/2];
+    do{
+        while(oceny[i]<x) i++;
+        while(oceny[j]>x) j--;
+        if(i<=j){
+            int temp=oceny[i];
+            oceny[i]=oceny[j];
+            oceny[j]=temp;
+            Chromosom nowy(_populacja[i]);
+            _populacja[i] = _populacja[j];
+            _populacja[j] = nowy;
+            i++;
+            j--;
+        }
+    }while(i<=j);
+    if(left<j) quicksort(oceny,left,j);
+    if(right>i) quicksort(oceny,i,right);
 }
 

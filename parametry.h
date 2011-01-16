@@ -47,7 +47,7 @@ public:
 
 private:
     QVector<QVector<QVector <QVector <int> > > > wektZaleznosci;
-    QVector<int> wspDrogi, wspPoj;
+    QVector<QVector <int> > wspDrogi, wspPoj;
     int ograniczenia_poj,parametry_poj,parametry_drogi;
 };
 

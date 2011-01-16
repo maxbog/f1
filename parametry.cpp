@@ -90,11 +90,18 @@ void MacierzZaleznosci::Wczytaj(QString plik) {
 
     /* plik w postaci:
        ilosc_paramterow_pojazdu ilosc_paramterow_drogi
+       ile_wsp_paramteru_pojazdu1 dopuszczalne wartosci wspolczynnikow paramteru pojazdu
+       ile_wsp_paramteru_pojazdu2 dopuszczalne wartosci wspolczynnikow paramteru pojazdu
+       ile_wsp_paramteru_pojazdu3 dopuszczalne wartosci wspolczynnikow paramteru pojazdu
+       ...
+
+       ile_wsp_parametru_drogi1 dopuszczalne wartosci wspolczynnikow paramteru drogi
+       ile_wsp_parametru_drogi2 dopuszczalne wartosci wspolczynnikow paramteru drogi
+       ile_wsp_parametru_drogi3 dopuszczalne wartosci wspolczynnikow paramteru drogi
+       ...
        nr_aktualnego_param_poj nr_aktualnego_param_drogi
-       ile_wsp_paramteru_pojazdu ile_wsp_parametru_drogi
-       dopuszczalne wartosci wspolczynnikow paramteru drogi
-       ograniczenie_param_poj1 czas1 czas2...
-       ograniczenie_param_poj2 czas1 czas2 ...
+       czas11 czas12 ...
+       czas21 czas22 ...
        ...
     */
 
@@ -113,26 +120,35 @@ void MacierzZaleznosci::Wczytaj(QString plik) {
     int ile_wsp_drogi, ile_wsp_poj;
 
     wektZaleznosci.resize(parametry_poj);
+    wspPoj.resize(parametry_poj);
+    for(int i=0;i<parametry_poj;++i) {
+        in >> ile_wsp_poj;
+        for(int j=0;j<ile_wsp_poj;j++) {
+            in >> a;
+            wspPoj[i].append(a);
+        }
+    }
+
+    wspDrogi.resize(parametry_drogi);
+    for(int i=0;i<parametry_drogi;++i) {
+        in >> ile_wsp_drogi;
+        for(int j=0;j<ile_wsp_drogi;j++) {
+            in >> a;
+            wspDrogi[i].append(a);
+        }
+    }
 
     for(int k=0;k<parametry_poj*parametry_drogi;++k) {
 
         in >> nr_param_poj >> nr_param_drogi;           // macierz dla jakich elementow jest aktualnie wczytywana
-        in >> ile_wsp_poj >> ile_wsp_drogi;             // ile konkretne paramtery maja wspolczynnikow
 
         QVector<int> wekt_czas;
         QVector<QVector <int> > m_zaleznosci;             // pojedyncza macierz zaleznosci
         wektZaleznosci[nr_param_poj].resize(parametry_drogi);
 
-        for(int i=0;i<ile_wsp_drogi;i++) {
-            in >> a;
-            wspDrogi.append(a);
-        }
-
-        for(int i=0;i<ile_wsp_poj;++i) {
+        for(int i=0;i<wspPoj[nr_param_poj].size();++i) {
             wekt_czas.clear();
-            in >> a;
-            wspPoj.append(a);
-            for(int j=0;j<ile_wsp_drogi;++j) {
+            for(int j=0;j<wspDrogi[nr_param_drogi].size();++j) {
                 in >> a;
                 wekt_czas.append(a);
             }
@@ -144,7 +160,7 @@ void MacierzZaleznosci::Wczytaj(QString plik) {
 }
 
 int MacierzZaleznosci::Parametr(int param_poj,int param_droga,int wsp_poj,int wsp_drogi) const {
-    int id_wsp_drogi = wspDrogi.indexOf(wsp_drogi);
-    int id_wsp_poj = wspPoj.indexOf(wsp_poj);
+    int id_wsp_drogi = wspDrogi[param_droga].indexOf(wsp_drogi);
+    int id_wsp_poj = wspPoj[param_poj].indexOf(wsp_poj);
     return wektZaleznosci.at(param_poj).at(param_droga).at(id_wsp_poj).at(id_wsp_drogi);
 }

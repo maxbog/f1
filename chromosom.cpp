@@ -38,7 +38,7 @@ Chromosom Chromosom::losuj(const OgraniczeniaF1& ogr) {
     Random rand;
     nowy._parametry.reserve(ogr.ileParametrow());
     for(int i = 0; i < ogr.ileParametrow(); ++i) {
-        nowy._parametry[i] = ogr.Parametr(i, rand.nastInt(ogr.ileOgraniczen(i) - 1));
+        nowy._parametry.append(ogr.Parametr(i, rand.nastInt(ogr.ileOgraniczen(i) - 1)));
     }
     return nowy;
 }
