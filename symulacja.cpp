@@ -167,3 +167,15 @@ void Symulacja::quicksort(QVector<int> & oceny, int left, int right) {
     if(right>i) quicksort(oceny,i,right);
 }
 
+Chromosom Symulacja::najlepszyOsobnik() {
+    int naj_index = 0;
+    int naj_ocena = 0;
+    for(int i=0;i<_oceny.size();++i) {
+        if(_oceny[i] > naj_ocena) {
+            naj_ocena = _oceny[i];
+            naj_index = i;
+        }
+    }
+    return _populacja[naj_index];
+}
+

@@ -16,6 +16,7 @@ public:
     void selekcja();
     void mutacja(double prawdopodobienstwo);
     void krzyzowanie(double prawdopodobienstwo);
+    Chromosom najlepszyOsobnik();
 private:
     QVector<Chromosom> _populacja;
     QVector<int> _oceny;

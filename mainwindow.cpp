@@ -21,6 +21,18 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_6_clicked()
 {
     symulacja.krok();
+    Chromosom najlepszy = symulacja.najlepszyOsobnik();
+    ui->tabelkaNajlepszy->setColumnCount(2);
+    ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
+    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");
+    ui->tabelkaNajlepszy->setColumnWidth(0,70);
+    ui->tabelkaNajlepszy->setColumnWidth(1,70);
+    for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
+        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+        QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
+        ui->tabelkaTrasa->setItem(0,i,numer);
+        ui->tabelkaTrasa->setItem(1,i,par);
+    }
 }
 
 void MainWindow::on_pushButton_5_clicked()
@@ -41,6 +53,18 @@ void MainWindow::on_pushButton_4_clicked()
 void MainWindow::tykniecie()
 {
     symulacja.krok();
+    Chromosom najlepszy = symulacja.najlepszyOsobnik();
+    ui->tabelkaNajlepszy->setColumnCount(2);
+    ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
+    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");
+    ui->tabelkaNajlepszy->setColumnWidth(0,70);
+    ui->tabelkaNajlepszy->setColumnWidth(1,70);
+    for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
+        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+        QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
+        ui->tabelkaTrasa->setItem(0,i,numer);
+        ui->tabelkaTrasa->setItem(1,i,par);
+    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
