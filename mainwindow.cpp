@@ -24,14 +24,15 @@ void MainWindow::on_pushButton_6_clicked()
     Chromosom najlepszy = symulacja.najlepszyOsobnik();
     ui->tabelkaNajlepszy->setColumnCount(2);
     ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
-    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");
+    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartosc");
     ui->tabelkaNajlepszy->setColumnWidth(0,70);
     ui->tabelkaNajlepszy->setColumnWidth(1,70);
     for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
+        int  param = najlepszy.Parametr(i);
         QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
         QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
-        ui->tabelkaTrasa->setItem(0,i,numer);
-        ui->tabelkaTrasa->setItem(1,i,par);
+        ui->tabelkaNajlepszy->setItem(i,0,numer);
+        ui->tabelkaNajlepszy->setItem(i,1,par);
     }
 }
 
