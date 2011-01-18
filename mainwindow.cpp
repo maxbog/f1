@@ -44,7 +44,8 @@ void MainWindow::on_buttonStop_clicked()
 void MainWindow::tykniecie()
 {
     symulacja.krok();
-    Chromosom najlepszy = symulacja.najlepszyOsobnik();
+    Chromosom najlepszy(symulacja.najlepszyOsobnik());
+    ui->najlepszyOcena->setText(QString::number(najlepszy.ocena()));
     ui->tabelkaNajlepszy->setColumnCount(2);
     ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
     ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");

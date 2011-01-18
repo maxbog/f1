@@ -18,6 +18,10 @@ public:
 
     int Parametr(int) const;
 
+    void ocen(const OgraniczeniaF1& ogr, const Trasa& trasa, const MacierzZaleznosci& zaleznosci);
+
+    int ocena() const { return _ocena; };
+
     static Chromosom wczytaj(QString nazwa_pliku);
     static Chromosom losuj(const OgraniczeniaF1&);
 
@@ -25,6 +29,7 @@ public:
 
 private:
     QVector<int> _parametry;
+    int _ocena;
 };
 
 #endif // CHROMOSOM_H

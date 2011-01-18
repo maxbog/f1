@@ -2,6 +2,10 @@
 
 #include "random.h"
 
+bool wiekszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
+    return ch1.ocena() > ch2.ocena();
+}
+
 Symulacja::Symulacja()
 {
 }
@@ -24,28 +28,15 @@ void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, 
     _trasa = tr;
     _zaleznosci = mzal;
     _populacja.clear();
-    _oceny.clear();
     for(unsigned i = 0; i < wielkosc_populacji; ++i) {
         _populacja.append(Chromosom::losuj(_ogr));
     }
     ocen_populacje();
 }
-int Symulacja::ocen_jeden(const Chromosom& chr) {
-    int czas=0;
-
-    for(int i=0; i<_ogr.ileParametrow(); ++i) {
-        for(int j=0; j< _trasa.ileOdcinkow(); ++j) {
-            for(int k=0; k< _trasa.ileParametrow(); ++k)
-                czas += _zaleznosci.Parametr(i,k,chr.Parametr(i),_trasa.Parametr(j,k));
-        }
-    }
-    return czas;
-}
 
 void Symulacja::ocen_populacje() {
-    _oceny.clear();
     for(int i = 0; i < _populacja.size(); ++i) {
-        _oceny.append(ocen_jeden(_populacja[i]));
+        _populacja[i].ocen(_ogr, _trasa, _zaleznosci);
     }
 }
 
@@ -56,13 +47,13 @@ void Symulacja::selekcja() {
     case 0: { // metoda ruletki ?
             Random rand;
             int suma_ocen = 0;
-            for(int i = 0; i < _oceny.size(); ++i) {
-                suma_ocen += _oceny[i];
+            for(int i = 0; i < _populacja.size(); ++i) {
+                suma_ocen += _populacja[i].ocena();
             }
-            QVector<double> dystrybuanty(_oceny.size());
-            dystrybuanty[0] = double(_oceny[0])/double(suma_ocen);
-            for(int i = 1; i < _oceny.size(); ++i) {
-                dystrybuanty[i] = double(_oceny[i])/double(suma_ocen) + dystrybuanty[i-1];
+            QVector<double> dystrybuanty(_populacja.size());
+            dystrybuanty[0] = double(_populacja[0].ocena())/double(suma_ocen);
+            for(int i = 1; i < _populacja.size(); ++i) {
+                dystrybuanty[i] = double(_populacja[i].ocena())/double(suma_ocen) + dystrybuanty[i-1];
             }
             dystrybuanty[dystrybuanty.size() - 1] = 1.01;
             QVector<Chromosom> stara_populacja(_populacja);
@@ -80,7 +71,7 @@ void Symulacja::selekcja() {
 
     case 1: {   // rankingowa - prymitywna :P
             int ile_rodzicow = _populacja.size()*_p_rankingowe;
-            qSort(_oceny.begin(), _oceny.end(), qGreater<int>());
+            qSort(_populacja.begin(), _populacja.end(), wiekszy_ocena);
             //quicksort(_oceny,0,_oceny.size());
             QVector<Chromosom> nowa_populacja;
             for(int i=0;i<ile_rodzicow;++i) nowa_populacja.append(_populacja[i]);
@@ -99,7 +90,7 @@ void Symulacja::selekcja() {
                 b = rand.nastInt(_populacja.size()-1);
                 p1 = rand.nastDouble();
                 p2 = rand.nastDouble();
-                if(ocen_jeden(_populacja[a]) < ocen_jeden(_populacja[b])) {
+                if(_populacja[a].ocena() < _populacja[b].ocena()) {
                     int t = a;
                     a = b;
                     b = t;
@@ -147,34 +138,34 @@ void Symulacja::krzyzowanie(double prawdopodobienstwo) {
     _populacja[drugi] = krzyz.second;
 }
 
-void Symulacja::quicksort(QVector<int> & oceny, int left, int right) {
-    int i=left;
-    int j=right;
-    int x=oceny[(left+right)/2];
-    do{
-        while(oceny[i]<x) i++;
-        while(oceny[j]>x) j--;
-        if(i<=j){
-            int temp=oceny[i];
-            oceny[i]=oceny[j];
-            oceny[j]=temp;
-            Chromosom nowy(_populacja[i]);
-            _populacja[i] = _populacja[j];
-            _populacja[j] = nowy;
-            i++;
-            j--;
-        }
-    }while(i<=j);
-    if(left<j) quicksort(oceny,left,j);
-    if(right>i) quicksort(oceny,i,right);
-}
+//void Symulacja::quicksort(QVector<int> & oceny, int left, int right) {
+//    int i=left;
+//    int j=right;
+//    int x=oceny[(left+right)/2];
+//    do{
+//        while(oceny[i]<x) i++;
+//        while(oceny[j]>x) j--;
+//        if(i<=j){
+//            int temp=oceny[i];
+//            oceny[i]=oceny[j];
+//            oceny[j]=temp;
+//            Chromosom nowy(_populacja[i]);
+//            _populacja[i] = _populacja[j];
+//            _populacja[j] = nowy;
+//            i++;
+//            j--;
+//        }
+//    }while(i<=j);
+//    if(left<j) quicksort(oceny,left,j);
+//    if(right>i) quicksort(oceny,i,right);
+//}
 
 Chromosom Symulacja::najlepszyOsobnik() {
     int naj_index = 0;
     int naj_ocena = 0;
-    for(int i=0;i<_oceny.size();++i) {
-        if(_oceny[i] > naj_ocena) {
-            naj_ocena = _oceny[i];
+    for(int i=0;i<_populacja.size();++i) {
+        if(_populacja[i].ocena() > naj_ocena) {
+            naj_ocena = _populacja[i].ocena();
             naj_index = i;
         }
     }

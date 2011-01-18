@@ -7,11 +7,11 @@
 #include "random.h"
 
 Chromosom::Chromosom()
-    : _parametry() {
+    : _parametry(), _ocena(0) {
 }
 
 Chromosom::Chromosom(const Chromosom &inny)
-    : _parametry(inny._parametry) {
+    : _parametry(inny._parametry), _ocena(inny._ocena) {
 
 }
 
@@ -73,6 +73,17 @@ QPair<Chromosom, Chromosom> Chromosom::krzyzuj(const Chromosom& inny, int miejsc
         nowy.second._parametry.append(_parametry[i]);
     }
     return nowy;
+}
+
+void Chromosom::ocen(const OgraniczeniaF1& ogr, const Trasa& trasa, const MacierzZaleznosci& zaleznosci) {
+    _ocena = 0;
+
+    for(int i=0; i<ogr.ileParametrow(); ++i) {
+        for(int j=0; j< trasa.ileOdcinkow(); ++j) {
+            for(int k=0; k< trasa.ileParametrow(); ++k)
+                _ocena += zaleznosci.Parametr(i,k,Parametr(i),trasa.Parametr(j,k));
+        }
+    }
 }
 
 int Chromosom::Parametr(int i) const {
