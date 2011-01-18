@@ -106,18 +106,20 @@ void MainWindow::on_comboBox_activated(int )
     case 2: {
             ui->label_8->setEnabled(true);
             ui->label_8->setText("Prawd. wyboru");
-            ui->doubleSpinBox_2->setEnabled(true);
+            ui->spinPrawd->setEnabled(true);
+            ui->spinPrawd->setValue(symulacja.prawdTurniejowe());
             break;
         }
     case 1: {
             ui->label_8->setEnabled(true);
             ui->label_8->setText("% zwyciezcow rankingu");
-            ui->doubleSpinBox_2->setEnabled(true);
+            ui->spinPrawd->setEnabled(true);
+            ui->spinPrawd->setValue(symulacja.prawdRankingowe());
             break;
         }
     default: {
             ui->label_8->setEnabled(false);
-            ui->doubleSpinBox_2->setEnabled(false);
+            ui->spinPrawd->setEnabled(false);
             break;
         }
     }
@@ -129,5 +131,19 @@ void MainWindow::on_pushButton_8_clicked()
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik zale¿noœci", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
         zaleznosci.Wczytaj(plik);
+    }
+}
+
+void MainWindow::on_spinPrawd_valueChanged(double )
+{
+    switch(ui->comboBox->currentIndex()) {
+    case 2: {
+            symulacja.prawdTurniejowe(ui->spinPrawd->value());
+            break;
+        }
+    case 1: {
+            symulacja.prawdRankingowe(ui->spinPrawd->value());
+            break;
+        }
     }
 }

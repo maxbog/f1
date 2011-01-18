@@ -7,6 +7,7 @@ bool wiekszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
 }
 
 Symulacja::Symulacja()
+    : _p_turniejowe(1), _p_rankingowe(0.5)
 {
 }
 

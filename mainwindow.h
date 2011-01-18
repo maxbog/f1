@@ -24,6 +24,7 @@ public:
     QTimer timer;
 
 private slots:
+    void on_spinPrawd_valueChanged(double );
     void on_pushButton_8_clicked();
     void on_comboBox_activated(int );
     void on_pushButton_2_clicked();

@@ -16,6 +16,10 @@ public:
     void mutacja(double prawdopodobienstwo);
     void krzyzowanie(double prawdopodobienstwo);
     Chromosom najlepszyOsobnik();
+    void prawdTurniejowe(double p_turniejowe) { _p_turniejowe = p_turniejowe; }
+    void prawdRankingowe(double p_rankingowe) { _p_rankingowe = p_rankingowe; }
+    double prawdTurniejowe() { return _p_turniejowe; }
+    double prawdRankingowe() { return _p_rankingowe; }
 private:
     QVector<Chromosom> _populacja;
     OgraniczeniaF1 _ogr;
