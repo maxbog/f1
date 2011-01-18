@@ -28,13 +28,13 @@ private slots:
     void on_comboBox_activated(int );
     void on_pushButton_2_clicked();
     void on_pushButton_clicked();
-    void on_pushButton_6_clicked();
+    void on_buttonStart_clicked();
 
-    void on_pushButton_5_clicked();
+    void on_buttonStop_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_buttonResetuj_clicked();
 
-    void on_pushButton_4_clicked();
+    void on_buttonKrok_clicked();
 
     void tykniecie();
 

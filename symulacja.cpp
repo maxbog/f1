@@ -136,6 +136,8 @@ void Symulacja::krzyzowanie(double prawdopodobienstwo) {
     if(krzyzowane.size() % 2 == 1) {
         krzyzowane.pop_back();
     }
+    if(krzyzowane.size() == 0)
+        return; // nie krzy¿ujemy, jeœli nie ma czego krzy¿owaæ
     int pierwszy, drugi;
     QPair<Chromosom, Chromosom> krzyz;
     pierwszy = krzyzowane[rand.nastInt(krzyzowane.size() - 1)];

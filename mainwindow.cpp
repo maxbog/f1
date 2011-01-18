@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    timer.setInterval(500);
+    timer.setInterval(0);
     connect(&timer, SIGNAL(timeout()), this, SLOT(tykniecie()));
     ui->setupUi(this);
 }
@@ -18,22 +18,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_6_clicked()
+void MainWindow::on_buttonKrok_clicked()
 {
     tykniecie();
 }
 
-void MainWindow::on_pushButton_5_clicked()
+void MainWindow::on_buttonResetuj_clicked()
 {
     symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex());
+    this->ui->buttonStart->setEnabled(true);
+    this->ui->buttonStop->setEnabled(true);
+    this->ui->buttonKrok->setEnabled(true);
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_buttonStart_clicked()
 {
     timer.start();
 }
 
-void MainWindow::on_pushButton_4_clicked()
+void MainWindow::on_buttonStop_clicked()
 {
     timer.stop();
 }
