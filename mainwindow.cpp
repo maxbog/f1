@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    timer.setInterval(0);
+    timer.setInterval(500);
     connect(&timer, SIGNAL(timeout()), this, SLOT(tykniecie()));
     ui->setupUi(this);
 }
@@ -20,25 +20,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_6_clicked()
 {
-    symulacja.krok();
-    Chromosom najlepszy = symulacja.najlepszyOsobnik();
-    ui->tabelkaNajlepszy->setColumnCount(2);
-    ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
-    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartosc");
-    ui->tabelkaNajlepszy->setColumnWidth(0,70);
-    ui->tabelkaNajlepszy->setColumnWidth(1,70);
-    for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
-        int  param = najlepszy.Parametr(i);
-        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
-        QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
-        ui->tabelkaNajlepszy->setItem(i,0,numer);
-        ui->tabelkaNajlepszy->setItem(i,1,par);
-    }
+    tykniecie();
 }
 
 void MainWindow::on_pushButton_5_clicked()
 {
-    symulacja.inicjuj(20, ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex());
+    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex());
 }
 
 void MainWindow::on_pushButton_3_clicked()
@@ -63,8 +50,8 @@ void MainWindow::tykniecie()
     for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
         QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
         QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
-        ui->tabelkaTrasa->setItem(0,i,numer);
-        ui->tabelkaTrasa->setItem(1,i,par);
+        ui->tabelkaNajlepszy->setItem(i,0,numer);
+        ui->tabelkaNajlepszy->setItem(i,1,par);
     }
 }
 

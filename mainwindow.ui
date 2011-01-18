@@ -187,7 +187,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox"/>
+       <widget class="QSpinBox" name="spinWielkoscPopulacji">
+        <property name="value">
+         <number>20</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -363,7 +367,7 @@
        <x>10</x>
        <y>190</y>
        <width>231</width>
-       <height>21</height>
+       <height>22</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_7">
