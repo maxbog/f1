@@ -10,7 +10,7 @@ public:
     Symulacja();
     void krok();
     void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&,
-                 int rodzaj_selekcji, double p_turniejowe=1,double p_rankingowe=0.5);
+                 int rodzaj_selekcji, double prawd_selekcji,bool najlepszy);
     void ocen_populacje();
     void selekcja();
     void mutacja(double prawdopodobienstwo);
@@ -29,6 +29,8 @@ private:
     int _rodzaj_selekcji;
     double _p_turniejowe;
     double _p_rankingowe;
+    bool _najlepszy;
+
     void quicksort(QVector<int>&,int,int);
 };
 

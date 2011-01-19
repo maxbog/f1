@@ -25,7 +25,8 @@ void MainWindow::on_buttonKrok_clicked()
 
 void MainWindow::on_buttonResetuj_clicked()
 {
-    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex());
+
+    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(),ui->checkBox_2->isChecked() );
     this->ui->buttonStart->setEnabled(true);
     this->ui->buttonStop->setEnabled(true);
     this->ui->buttonKrok->setEnabled(true);
@@ -44,19 +45,19 @@ void MainWindow::on_buttonStop_clicked()
 void MainWindow::tykniecie()
 {
     symulacja.krok();
-    Chromosom najlepszy(symulacja.najlepszyOsobnik());
-    ui->najlepszyOcena->setText(QString::number(najlepszy.ocena()));
-    ui->tabelkaNajlepszy->setColumnCount(2);
-    ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
-    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");
-    ui->tabelkaNajlepszy->setColumnWidth(0,70);
-    ui->tabelkaNajlepszy->setColumnWidth(1,70);
-    for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
-        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
-        QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
-        ui->tabelkaNajlepszy->setItem(i,0,numer);
-        ui->tabelkaNajlepszy->setItem(i,1,par);
-    }
+//    Chromosom najlepszy(symulacja.najlepszyOsobnik());
+//    ui->najlepszyOcena->setText(QString::number(najlepszy.ocena()));
+//    ui->tabelkaNajlepszy->setColumnCount(2);
+//    ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
+//    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");
+//    ui->tabelkaNajlepszy->setColumnWidth(0,70);
+//    ui->tabelkaNajlepszy->setColumnWidth(1,70);
+//    for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
+//        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+//        QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
+//        ui->tabelkaNajlepszy->setItem(i,0,numer);
+//        ui->tabelkaNajlepszy->setItem(i,1,par);
+//    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
