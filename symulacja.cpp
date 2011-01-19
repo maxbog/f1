@@ -20,11 +20,15 @@ void Symulacja::krok() {
 }
 
 void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr,
-                        int rodzaj_selekcji, double p_turniejowe,double p_rankingowe) {
+                        int rodzaj_selekcji, double prawd_selekcji) {
     _ilosc_krokow = 0;
     _rodzaj_selekcji = rodzaj_selekcji;
-    _p_turniejowe = p_turniejowe;
-    _p_rankingowe = p_rankingowe;
+    switch (rodzaj_selekcji) {
+    case 1: {_p_rankingowe = prawd_selekcji; break; }
+    case 2: {_p_turniejowe = prawd_selekcji; break; }
+    default: break;
+    }
+
     _ogr = ogr;
     _trasa = tr;
     _zaleznosci = mzal;
@@ -74,7 +78,7 @@ void Symulacja::selekcja() {
             int ile_rodzicow = _populacja.size()*_p_rankingowe;
             qSort(_populacja.begin(), _populacja.end(), wiekszy_ocena);
             //quicksort(_oceny,0,_oceny.size());
-            QVector<Chromosom> nowa_populacja;
+            QVector<Chromosom> nowa_populacja(ile_rodzicow);
             for(int i=0;i<ile_rodzicow;++i) nowa_populacja.append(_populacja[i]);
             _populacja = nowa_populacja;
             break;
@@ -100,7 +104,9 @@ void Symulacja::selekcja() {
                 if( p1 <= _p_turniejowe) nowa_populacja.append(_populacja[a]);      // zwyciezca
                 if( p2 <= _p_turniejowe*(1-_p_turniejowe) ) nowa_populacja.append(_populacja[b]);
             }
+            if(nowa_populacja.size() > 0)
             _populacja = nowa_populacja;
+            break;
 
         }
 
