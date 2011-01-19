@@ -84,6 +84,7 @@ void Chromosom::ocen(const OgraniczeniaF1& ogr, const Trasa& trasa, const Macier
                 _ocena += zaleznosci.Parametr(i,k,Parametr(i),trasa.Parametr(j,k));
         }
     }
+    _ocena = -_ocena;
 }
 
 int Chromosom::Parametr(int i) const {

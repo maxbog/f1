@@ -45,19 +45,19 @@ void MainWindow::on_buttonStop_clicked()
 void MainWindow::tykniecie()
 {
     symulacja.krok();
-//    Chromosom najlepszy(symulacja.najlepszyOsobnik());
-//    ui->najlepszyOcena->setText(QString::number(najlepszy.ocena()));
-//    ui->tabelkaNajlepszy->setColumnCount(2);
-//    ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
-//    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");
-//    ui->tabelkaNajlepszy->setColumnWidth(0,70);
-//    ui->tabelkaNajlepszy->setColumnWidth(1,70);
-//    for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
-//        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
-//        QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
-//        ui->tabelkaNajlepszy->setItem(i,0,numer);
-//        ui->tabelkaNajlepszy->setItem(i,1,par);
-//    }
+    Chromosom najlepszy(symulacja.najlepszyOsobnik());
+    ui->najlepszyOcena->setText(QString::number(-najlepszy.ocena()));
+    ui->tabelkaNajlepszy->setColumnCount(2);
+    ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
+    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");
+    ui->tabelkaNajlepszy->setColumnWidth(0,70);
+    ui->tabelkaNajlepszy->setColumnWidth(1,70);
+    for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
+        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+        QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
+        ui->tabelkaNajlepszy->setItem(i,0,numer);
+        ui->tabelkaNajlepszy->setItem(i,1,par);
+    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -104,6 +104,11 @@ void MainWindow::on_pushButton_clicked() // wczytywanie trasy
 void MainWindow::on_comboBox_activated(int )
 {
     switch(ui->comboBox->currentIndex()) {
+    case 3: {
+            ui->label_8->setEnabled(false);
+            ui->spinPrawd->setEnabled(false);
+            break;
+        }
     case 2: {
             ui->label_8->setEnabled(true);
             ui->label_8->setText("Prawd. wyboru");

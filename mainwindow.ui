@@ -229,6 +229,11 @@
           <string>Metoda turniejowa</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Metoda liniowa wg indeksów</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
