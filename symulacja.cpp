@@ -6,6 +6,10 @@ bool wiekszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
     return ch1.ocena() > ch2.ocena();
 }
 
+bool mniejszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
+    return ch1.ocena() < ch2.ocena();
+}
+
 Symulacja::Symulacja()
     : _p_turniejowe(1), _p_rankingowe(0.5)
 {
@@ -62,7 +66,7 @@ void Symulacja::selekcja() {
             for(int i = 1; i < _populacja.size(); ++i) {
                 dystrybuanty[i] = double(_populacja[i].ocena())/double(suma_ocen) + dystrybuanty[i-1];
             }
-            dystrybuanty[dystrybuanty.size() - 1] = 1.01;
+            dystrybuanty[dystrybuanty.size() - 1] = 1.01; // kompensacja b³êdów obliczeniowych
             QVector<Chromosom> stara_populacja(_populacja);
             for(int i = 0; i < _populacja.size(); ++i) {
                 double los = rand.nastDouble();
@@ -86,7 +90,7 @@ void Symulacja::selekcja() {
             break;
         }
 
-    default: {   // turniejowa
+    case 2: {   // turniejowa
             Random rand;
             int a, b;
             double p1, p2;
@@ -111,6 +115,25 @@ void Symulacja::selekcja() {
             break;
 
         }
+
+    case 3: { // liniowa wg indeksów
+            Random rand;
+            qSort(_populacja.begin(), _populacja.end(), mniejszy_ocena);
+            QVector<double> dystrybuanty(_populacja.size());
+            double wszystkie = _populacja.size() * (_populacja.size() + 1) / 2;
+            QVector<Chromosom> stara_populacja(_populacja);
+            for(int i = 0; i < _populacja.size(); ++i) {
+                double los = rand.nastDouble();
+                for(int j = 0; j < _populacja.size(); ++j) {
+                    if(los < (j+1)*(j+2)/(2*wszystkie) + 0.001) {
+                        _populacja[i] = stara_populacja[j];
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+
 
     }
 
