@@ -1,8 +1,6 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
 
-#include "parametry.h"
-
 #include <iostream>
 #include <QFile>
 #include <QTextStream>

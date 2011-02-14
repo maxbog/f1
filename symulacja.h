@@ -10,7 +10,7 @@ public:
     Symulacja();
     void krok();
     void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&,
-                 int rodzaj_selekcji, double prawd_selekcji,bool najlepszy);
+                 int rodzaj_selekcji, double prawd_selekcji, bool najlepszy);
     void ocen_populacje();
     void selekcja();
     void mutacja(double prawdopodobienstwo);

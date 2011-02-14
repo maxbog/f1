@@ -20,7 +20,7 @@ void Symulacja::krok() {
 }
 
 void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr,
-                        int rodzaj_selekcji, double prawd_selekcji,bool najlepszy) {
+                        int rodzaj_selekcji, double prawd_selekcji, bool najlepszy) {
     _ilosc_krokow = 0;
     _rodzaj_selekcji = rodzaj_selekcji;
     switch (rodzaj_selekcji) {
