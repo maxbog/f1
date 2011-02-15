@@ -28,6 +28,7 @@ public:
     int ileParametrow() const { return _parametry.size(); }
 
 private:
+    QVector<int> losoweLiczby(int ile, int max) const;
     QVector<int> _parametry;
     int _ocena;
 };

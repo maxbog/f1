@@ -47,13 +47,9 @@ Chromosom Chromosom::mutacja(const OgraniczeniaF1& ogr, unsigned ileGenow) const
     Chromosom nowy(*this);
     ileGenow = std::min((int)ileGenow, _parametry.size());
     Random rand;
-    int nastepny = -1;
-    // pêtelka gwarantuje, ¿e nie bêdzie dwukrotnej mutacji tego samego genu
-    while(ileGenow) {
-        // ca³y wzór: rand.nastInt(_parametry.size() - 1 - (ileGenow - 1) - (nastepny + 1)) + nastepny + 1;
-        nastepny = rand.nastInt(_parametry.size() - ileGenow - nastepny - 1) + nastepny + 1;
-        nowy._parametry[nastepny] = ogr.Parametr(nastepny,rand.nastInt(ogr.ileOgraniczen(nastepny)-1));
-        --ileGenow;
+    QVector<int> liczby = losoweLiczby(ileGenow, _parametry.size()-1);
+    for(int i=0;i< liczby.count();++i) {
+        nowy._parametry[liczby[i]] = ogr.Parametr(liczby[i],rand.nastInt(ogr.ileOgraniczen(liczby[i])-1));
     }
     return nowy;
 }
@@ -89,4 +85,27 @@ void Chromosom::ocen(const OgraniczeniaF1& ogr, const Trasa& trasa, const Macier
 
 int Chromosom::Parametr(int i) const {
     return _parametry.at(i);
+}
+
+struct RandomFunctor {
+    RandomFunctor()
+        : _rand()
+    {}
+
+    int operator()(int max) {
+        return _rand.nastInt(max-1);
+    }
+
+    Random _rand;
+};
+
+QVector<int> Chromosom::losoweLiczby(int ile, int max) const {
+    QVector<int> tmp = QVector<int>(max+1);
+    for(int i=0;i < max+1; ++i) {
+        tmp[i] = i;
+    }
+    RandomFunctor functor;
+    std::random_shuffle(tmp.begin(), tmp.end(), functor);
+    tmp.resize(ile);
+    return tmp;
 }
