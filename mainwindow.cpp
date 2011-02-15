@@ -26,7 +26,7 @@ void MainWindow::on_buttonKrok_clicked()
 void MainWindow::on_buttonResetuj_clicked()
 {
 
-    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(),ui->checkBox_2->isChecked() );
+    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(),ui->checkBox_2->isChecked(), ui->comboKrzyzowanie->currentIndex() == 1);
     this->ui->buttonStart->setEnabled(true);
     this->ui->buttonStop->setEnabled(true);
     this->ui->buttonKrok->setEnabled(true);
@@ -190,4 +190,9 @@ void MainWindow::on_buttonLosuj_clicked()
 //        ui->tabelkaOgraniczenia->setItem(i, 1, &ogr_dane[i].second);
 //    }
 
+}
+
+void MainWindow::on_comboKrzyzowanie_currentIndexChanged(int index)
+{
+    symulacja.krzyzWielopunktowe(index == 1);
 }

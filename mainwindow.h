@@ -24,6 +24,7 @@ public:
     QTimer timer;
 
 private slots:
+    void on_comboKrzyzowanie_currentIndexChanged(int index);
     void on_buttonLosuj_clicked();
     void on_spinPrawd_valueChanged(double );
     void on_pushButton_8_clicked();

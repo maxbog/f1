@@ -24,7 +24,7 @@ void Symulacja::krok() {
 }
 
 void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr,
-                        int rodzaj_selekcji, double prawd_selekcji, bool najlepszy) {
+                        int rodzaj_selekcji, double prawd_selekcji, bool najlepszy, bool wielopunktowe) {
     _ilosc_krokow = 0;
     _rodzaj_selekcji = rodzaj_selekcji;
     switch (rodzaj_selekcji) {
@@ -34,6 +34,7 @@ void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, 
     }
 
     _najlepszy = najlepszy;
+    _wielopunktowe = wielopunktowe;
 
     _ogr = ogr;
     _trasa = tr;

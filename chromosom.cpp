@@ -54,19 +54,32 @@ Chromosom Chromosom::mutacja(const OgraniczeniaF1& ogr, unsigned ileGenow) const
     return nowy;
 }
 
-QPair<Chromosom, Chromosom> Chromosom::krzyzuj(const Chromosom& inny, int miejsce) const {
-    if(miejsce < 0) {
-        Random rand;
-        miejsce = rand.nastInt(_parametry.size() - 3) + 1; // miejce przeciêcia gdzieœ w œrodku chromosomu
+QPair<Chromosom, Chromosom> Chromosom::krzyzuj(const Chromosom& inny, bool wielopunktowe, int ilosc) const {
+    QVector<int> punkty;
+    Random rand;
+    if(wielopunktowe) {
+        if(ilosc < 0) {
+            ilosc = rand.nastInt(_parametry.size() / 2); // miejce przeciêcia gdzieœ w œrodku chromosomu
+        }
+        punkty = losoweLiczby(ilosc, _parametry.size()-1);
+    } else {
+        punkty.append(rand.nastInt(_parametry.size()-3) + 1);
     }
+    punkty.append(_parametry.size());
     QPair<Chromosom, Chromosom> nowy;
-    for (int i = 0; i < miejsce + 1; ++i) {
-        nowy.first._parametry.append(_parametry[i]);
-        nowy.second._parametry.append(inny._parametry[i]);
-    }
-    for (int i = miejsce + 1; i < _parametry.size(); ++i) {
-        nowy.first._parametry.append(inny._parametry[i]);
-        nowy.second._parametry.append(_parametry[i]);
+    bool zamiana = true;
+    int aktualny = 0;
+    for(int i = 0; i < punkty.size(); ++i) {
+        for (; aktualny < punkty[i]; ++aktualny) {
+            if(zamiana) {
+                nowy.first._parametry.append(_parametry[aktualny]);
+                nowy.second._parametry.append(inny._parametry[aktualny]);
+            } else {
+                nowy.first._parametry.append(inny._parametry[aktualny]);
+                nowy.second._parametry.append(_parametry[aktualny]);
+            }
+        }
+        zamiana = !zamiana;
     }
     return nowy;
 }

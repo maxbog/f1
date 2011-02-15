@@ -10,7 +10,7 @@ public:
     Symulacja();
     void krok();
     void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&,
-                 int rodzaj_selekcji, double prawd_selekcji, bool najlepszy);
+                 int rodzaj_selekcji, double prawd_selekcji, bool najlepszy, bool wielopunktowe);
     void ocen_populacje();
     void selekcja();
     void mutacja(double prawdopodobienstwo);
@@ -20,6 +20,9 @@ public:
     void prawdRankingowe(double p_rankingowe) { _p_rankingowe = p_rankingowe; }
     double prawdTurniejowe() { return _p_turniejowe; }
     double prawdRankingowe() { return _p_rankingowe; }
+    void krzyzWielopunktowe(bool wielopunktowe) { _wielopunktowe = wielopunktowe; }
+    double krzyzWielopunktowe() { return _wielopunktowe; }
+
 private:
     QVector<Chromosom> _populacja;
     OgraniczeniaF1 _ogr;
@@ -30,6 +33,7 @@ private:
     double _p_turniejowe;
     double _p_rankingowe;
     bool _najlepszy;
+    bool _wielopunktowe;
 
     void quicksort(QVector<int>&,int,int);
 };
