@@ -26,7 +26,7 @@ void MainWindow::on_buttonKrok_clicked()
 void MainWindow::on_buttonResetuj_clicked()
 {
 
-    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(),ui->checkNajlepszy->isChecked(), ui->comboKrzyzowanie->currentIndex() == 1);
+    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(),ui->checkElita->isChecked(), ui->comboKrzyzowanie->currentIndex() == 1);
     this->ui->buttonStart->setEnabled(true);
     this->ui->buttonStop->setEnabled(true);
     this->ui->buttonKrok->setEnabled(true);

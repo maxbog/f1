@@ -41,22 +41,25 @@ void Symulacja::wybierz_najlepszego() {
 }
 
 void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr,
-                        int rodzaj_selekcji, double prawd_selekcji, bool najlepszy, bool wielopunktowe) {
+                        int rodzaj_selekcji, double prawd_selekcji, bool elita, bool wielopunktowe) {
     _ilosc_krokow = 0;
     _rodzaj_selekcji = rodzaj_selekcji;
 
     _p_turniejowe = prawd_selekcji;
-    _najlepszy = najlepszy;
+    //_najlepszy = najlepszy;
+    _elita = elita;
     _wielopunktowe = wielopunktowe;
 
     _ogr = ogr;
     _trasa = tr;
     _zaleznosci = mzal;
+    _elita = elita;
     _populacja.clear();
     for(unsigned i = 0; i < wielkosc_populacji; ++i) {
         _populacja.append(Chromosom::losuj(_ogr));
     }
     ocen_populacje();
+    wybierz_najlepszego();
 }
 
 void Symulacja::ocen_populacje() {
@@ -163,6 +166,8 @@ void Symulacja::selekcja() {
 
 
     }
+
+    if(_elita) _populacja.append(_najlepszyWSymulacji);
 
 }
 

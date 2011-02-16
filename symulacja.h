@@ -10,7 +10,7 @@ public:
     Symulacja();
     void krok();
     void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&,
-                 int rodzaj_selekcji, double prawd_selekcji, bool najlepszy, bool wielopunktowe);
+                 int rodzaj_selekcji, double prawd_selekcji, bool elita, bool wielopunktowe);
     void ocen_populacje();
     void selekcja();
     void mutacja(double prawdopodobienstwo);
@@ -32,6 +32,7 @@ private:
     unsigned _ilosc_krokow;
     int _rodzaj_selekcji;
     double _p_turniejowe;
+    bool _elita;
     bool _najlepszy;
     bool _wielopunktowe;
     Chromosom _najlepszyWSymulacji;
