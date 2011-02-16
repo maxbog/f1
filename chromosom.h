@@ -20,7 +20,9 @@ public:
 
     void ocen(const OgraniczeniaF1& ogr, const Trasa& trasa, const MacierzZaleznosci& zaleznosci);
 
-    int ocena() const { return _ocena; };
+    int ocena() const { return _ocena; }
+
+    static Chromosom najgorszyMozliwy();
 
     static Chromosom wczytaj(QString nazwa_pliku);
     static Chromosom losuj(const OgraniczeniaF1&);

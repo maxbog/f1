@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>723</width>
+    <width>794</width>
     <height>586</height>
    </rect>
   </property>
@@ -39,7 +39,7 @@
       <string>Wybór elity</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_2">
+    <widget class="QCheckBox" name="checkNajlepszy">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -282,13 +282,13 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>310</y>
+      <y>300</y>
       <width>251</width>
       <height>221</height>
      </rect>
     </property>
     <property name="title">
-     <string>Najlepszy samochód</string>
+     <string>Najlepszy samochód w aktualnej populacji</string>
     </property>
     <widget class="QWidget" name="horizontalLayoutWidget">
      <property name="geometry">
@@ -472,7 +472,7 @@
      <rect>
       <x>180</x>
       <y>10</y>
-      <width>261</width>
+      <width>331</width>
       <height>271</height>
      </rect>
     </property>
@@ -505,7 +505,7 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>520</x>
       <y>10</y>
       <width>261</width>
       <height>271</height>
@@ -523,6 +523,51 @@
       <widget class="QTableWidget" name="tabelkaOgraniczenia"/>
      </item>
     </layout>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>300</y>
+      <width>251</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Najlepszy samochód od początku symulacji</string>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>231</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_12">
+      <item>
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Ocena</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="najlepszyOcenaGlobalnie"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QTableWidget" name="tabelkaNajlepszyGlobalnie">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>231</width>
+       <height>161</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

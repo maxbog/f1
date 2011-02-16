@@ -6,8 +6,10 @@
 #include <algorithm>
 #include "random.h"
 
+#include <limits>
+
 Chromosom::Chromosom()
-    : _parametry(), _ocena(0) {
+    : _parametry(), _ocena(std::numeric_limits<int>::min()) {
 }
 
 Chromosom::Chromosom(const Chromosom &inny)

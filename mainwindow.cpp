@@ -26,7 +26,7 @@ void MainWindow::on_buttonKrok_clicked()
 void MainWindow::on_buttonResetuj_clicked()
 {
 
-    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(),ui->checkBox_2->isChecked(), ui->comboKrzyzowanie->currentIndex() == 1);
+    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(),ui->checkNajlepszy->isChecked(), ui->comboKrzyzowanie->currentIndex() == 1);
     this->ui->buttonStart->setEnabled(true);
     this->ui->buttonStop->setEnabled(true);
     this->ui->buttonKrok->setEnabled(true);
@@ -45,7 +45,8 @@ void MainWindow::on_buttonStop_clicked()
 void MainWindow::tykniecie()
 {
     symulacja.krok();
-    Chromosom najlepszy(symulacja.najlepszyOsobnik());
+    // najlepszy w symulacji
+    Chromosom najlepszy(symulacja.najlepszyWSymulacji());
     ui->najlepszyOcena->setText(QString::number(-najlepszy.ocena()));
     ui->tabelkaNajlepszy->setColumnCount(2);
     ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
@@ -58,6 +59,23 @@ void MainWindow::tykniecie()
         ui->tabelkaNajlepszy->setItem(i,0,numer);
         ui->tabelkaNajlepszy->setItem(i,1,par);
     }
+
+    // najlepszy globalnie
+    if(ui->checkNajlepszy->isChecked()) {
+        Chromosom najlepszyGlobalnie(symulacja.najlepszyGlobalnie());
+        ui->najlepszyOcenaGlobalnie->setText(QString::number(-najlepszyGlobalnie.ocena()));
+        ui->tabelkaNajlepszyGlobalnie->setColumnCount(2);
+        ui->tabelkaNajlepszyGlobalnie->setRowCount(najlepszyGlobalnie.ileParametrow());
+        ui->tabelkaNajlepszyGlobalnie->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartoœæ");
+        ui->tabelkaNajlepszyGlobalnie->setColumnWidth(0,70);
+        ui->tabelkaNajlepszyGlobalnie->setColumnWidth(1,70);
+        for(int i = 0; i < najlepszyGlobalnie.ileParametrow(); ++i) {
+            QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+            QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszyGlobalnie.Parametr(i)));
+            ui->tabelkaNajlepszyGlobalnie->setItem(i,0,numer);
+            ui->tabelkaNajlepszyGlobalnie->setItem(i,1,par);
+        }
+}
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -195,4 +213,9 @@ void MainWindow::on_buttonLosuj_clicked()
 void MainWindow::on_comboKrzyzowanie_currentIndexChanged(int index)
 {
     symulacja.krzyzWielopunktowe(index == 1);
+}
+
+void MainWindow::on_checkNajlepszy_toggled(bool checked)
+{
+    symulacja.wyborNajlepszego(checked);
 }

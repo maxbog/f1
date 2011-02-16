@@ -15,13 +15,16 @@ public:
     void selekcja();
     void mutacja(double prawdopodobienstwo);
     void krzyzowanie(double prawdopodobienstwo);
-    Chromosom najlepszyOsobnik();
+    Chromosom najlepszyWSymulacji() const { return _najlepszyWSymulacji; }
+    Chromosom najlepszyGlobalnie() const { return _najlepszyGlobalnie; }
     void prawdTurniejowe(double p_turniejowe) { _p_turniejowe = p_turniejowe; }
     void prawdRankingowe(double p_rankingowe) { _p_rankingowe = p_rankingowe; }
-    double prawdTurniejowe() { return _p_turniejowe; }
-    double prawdRankingowe() { return _p_rankingowe; }
+    double prawdTurniejowe() const { return _p_turniejowe; }
+    double prawdRankingowe() const { return _p_rankingowe; }
     void krzyzWielopunktowe(bool wielopunktowe) { _wielopunktowe = wielopunktowe; }
-    double krzyzWielopunktowe() { return _wielopunktowe; }
+    double krzyzWielopunktowe() const { return _wielopunktowe; }
+    void wyborNajlepszego(bool najlepszy) { _najlepszy = najlepszy; }
+    bool wyborNajlepszego() const { return _najlepszy; }
 
 private:
     QVector<Chromosom> _populacja;
@@ -34,8 +37,11 @@ private:
     double _p_rankingowe;
     bool _najlepszy;
     bool _wielopunktowe;
+    Chromosom _najlepszyWSymulacji;
+    Chromosom _najlepszyGlobalnie;
 
     void quicksort(QVector<int>&,int,int);
+    void wybierz_najlepszego();
 };
 
 #endif // SYMULACJA_H
