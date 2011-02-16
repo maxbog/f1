@@ -81,12 +81,25 @@ void Symulacja::selekcja() {
             break;
         }
 
-    case 1: {   // rankingowa - prymitywna :P
-            int ile_rodzicow = _populacja.size()*_p_rankingowe;
-            qSort(_populacja.begin(), _populacja.end(), wiekszy_ocena);
-            //quicksort(_oceny,0,_oceny.size());
-            QVector<Chromosom> nowa_populacja(ile_rodzicow);
-            for(int i=0;i<ile_rodzicow;++i) nowa_populacja.append(_populacja[i]);
+    case 1: {   // rankingowa
+            QVector<Chromosom> nowa_populacja(_populacja);
+
+            Random rand;
+            double suma_ocen = _populacja.size()*(_populacja.size()+1)/2;
+            qSort(_populacja.begin(), _populacja.end(), mniejszy_ocena);
+            QVector<double> dystrybuanty(_populacja.size());
+            dystrybuanty[0] = double(_populacja.size())/double(suma_ocen);
+            for(int i = 1; i < _populacja.size(); ++i)
+                dystrybuanty[i] = double(_populacja.size() - i)/double(suma_ocen) + dystrybuanty[i-1];
+
+            dystrybuanty[dystrybuanty.size() - 1] = 1.01;
+
+            for (int i=0; i < _populacja.size(); ++i ) {
+                double p = rand.nastDouble();
+                for (int j=0; j< _populacja.size(); ++j) {
+                    if (p < dystrybuanty[j]) nowa_populacja[i] = _populacja[j];
+                }
+            }
             _populacja = nowa_populacja;
             break;
         }

@@ -116,13 +116,6 @@ void MainWindow::on_comboBox_activated(int )
             ui->spinPrawd->setValue(symulacja.prawdTurniejowe());
             break;
         }
-    case 1: {
-            ui->label_8->setEnabled(true);
-            ui->label_8->setText("% zwyciezcow rankingu");
-            ui->spinPrawd->setEnabled(true);
-            ui->spinPrawd->setValue(symulacja.prawdRankingowe());
-            break;
-        }
     default: {
             ui->label_8->setEnabled(false);
             ui->spinPrawd->setEnabled(false);
