@@ -12,7 +12,7 @@ bool mniejszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
 }
 
 Symulacja::Symulacja()
-    : _p_turniejowe(1), _p_rankingowe(0.5)
+    :  _p_turniejowe(1)
 {
 }
 
@@ -44,12 +44,8 @@ void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, 
                         int rodzaj_selekcji, double prawd_selekcji, bool najlepszy, bool wielopunktowe) {
     _ilosc_krokow = 0;
     _rodzaj_selekcji = rodzaj_selekcji;
-    switch (rodzaj_selekcji) {
-    case 1: {_p_rankingowe = prawd_selekcji; break; }
-    case 2: {_p_turniejowe = prawd_selekcji; break; }
-    default: break;
-    }
 
+    _p_turniejowe = prawd_selekcji;
     _najlepszy = najlepszy;
     _wielopunktowe = wielopunktowe;
 

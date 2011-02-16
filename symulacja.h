@@ -18,9 +18,7 @@ public:
     Chromosom najlepszyWSymulacji() const { return _najlepszyWSymulacji; }
     Chromosom najlepszyGlobalnie() const { return _najlepszyGlobalnie; }
     void prawdTurniejowe(double p_turniejowe) { _p_turniejowe = p_turniejowe; }
-    void prawdRankingowe(double p_rankingowe) { _p_rankingowe = p_rankingowe; }
     double prawdTurniejowe() const { return _p_turniejowe; }
-    double prawdRankingowe() const { return _p_rankingowe; }
     void krzyzWielopunktowe(bool wielopunktowe) { _wielopunktowe = wielopunktowe; }
     double krzyzWielopunktowe() const { return _wielopunktowe; }
     void wyborNajlepszego(bool najlepszy) { _najlepszy = najlepszy; }
@@ -34,7 +32,6 @@ private:
     unsigned _ilosc_krokow;
     int _rodzaj_selekcji;
     double _p_turniejowe;
-    double _p_rankingowe;
     bool _najlepszy;
     bool _wielopunktowe;
     Chromosom _najlepszyWSymulacji;

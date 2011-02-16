@@ -159,7 +159,7 @@ void MainWindow::on_spinPrawd_valueChanged(double )
             break;
         }
     case 1: {
-            symulacja.prawdRankingowe(ui->spinPrawd->value());
+
             break;
         }
     }
