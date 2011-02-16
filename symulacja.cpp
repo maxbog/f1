@@ -1,6 +1,7 @@
 #include "symulacja.h"
 
 #include "random.h"
+#include <limits>
 
 bool wiekszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
     return ch1.ocena() > ch2.ocena();
@@ -21,6 +22,22 @@ void Symulacja::krok() {
     krzyzowanie(0.25);
     mutacja(0.25);
     ocen_populacje();
+    wybierz_najlepszego();
+}
+void Symulacja::wybierz_najlepszego() {
+    int naj_index = 0;
+    int naj_ocena = std::numeric_limits<int>::min();
+    for(int i=0;i<_populacja.size();++i) {
+        if(_populacja[i].ocena() > naj_ocena) {
+            naj_ocena = _populacja[i].ocena();
+            naj_index = i;
+        }
+    }
+    _najlepszyWSymulacji = _populacja[naj_index];
+
+    if(_najlepszy && (naj_ocena > _najlepszyGlobalnie.ocena())) {
+        _najlepszyGlobalnie = _populacja[naj_index];
+    }
 }
 
 void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr,
@@ -205,16 +222,3 @@ void Symulacja::krzyzowanie(double prawdopodobienstwo) {
 //    if(left<j) quicksort(oceny,left,j);
 //    if(right>i) quicksort(oceny,i,right);
 //}
-
-Chromosom Symulacja::najlepszyOsobnik() {
-    int naj_index = 0;
-    int naj_ocena = 0;
-    for(int i=0;i<_populacja.size();++i) {
-        if(_populacja[i].ocena() > naj_ocena) {
-            naj_ocena = _populacja[i].ocena();
-            naj_index = i;
-        }
-    }
-    return _populacja[naj_index];
-}
-
