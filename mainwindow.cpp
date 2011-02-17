@@ -25,8 +25,11 @@ void MainWindow::on_buttonKrok_clicked()
 
 void MainWindow::on_buttonResetuj_clicked()
 {
+    timer.stop();
+    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ui->spinIloscKrokow->value(), ograniczenia, zaleznosci, trasa);
 
-    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa);
+    this->ui->progressKroki->setMaximum(this->ui->spinIloscKrokow->value());
+    this->ui->progressKroki->setValue(0);
     this->ui->buttonStart->setEnabled(true);
     this->ui->buttonStop->setEnabled(true);
     this->ui->buttonKrok->setEnabled(true);
@@ -75,7 +78,14 @@ void MainWindow::tykniecie()
             ui->tabelkaNajlepszyGlobalnie->setItem(i,0,numer);
             ui->tabelkaNajlepszyGlobalnie->setItem(i,1,par);
         }
-}
+    }
+    ui->progressKroki->setValue(symulacja.iloscKrokow());
+    if(symulacja.zakonczona()) {
+        this->ui->buttonStart->setEnabled(false);
+        this->ui->buttonStop->setEnabled(false);
+        this->ui->buttonKrok->setEnabled(false);
+        timer.stop();
+    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -141,7 +151,6 @@ void MainWindow::on_buttonLosuj_clicked()
 
     odswiez_trase();
     odswiez_ograniczenia();
-
 }
 
 void MainWindow::on_comboKrzyzowanie_currentIndexChanged(int index)

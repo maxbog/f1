@@ -9,7 +9,7 @@ class Symulacja
 public:
     Symulacja();
     void krok();
-    void inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&);
+    void inicjuj(unsigned wielkosc_populacji, unsigned max_ilosc_krokow, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&);
     void ocen_populacje();
     void selekcja();
     void mutacja(double prawdopodobienstwo);
@@ -26,6 +26,9 @@ public:
     bool wyborElity() const { return _elita; }
     void rodzajSelekcji(int rodzaj) { _rodzaj_selekcji = rodzaj; }
     bool rodzajSelekcji() const { return _rodzaj_selekcji; }
+    unsigned iloscKrokow() const { return _ilosc_krokow; }
+    unsigned maxIloscKrokow() const { return _max_ilosc_krokow; }
+    bool zakonczona() const { return _ilosc_krokow >= _max_ilosc_krokow; }
 
 private:
     QVector<Chromosom> _populacja;
@@ -33,6 +36,7 @@ private:
     Trasa _trasa;
     MacierzZaleznosci _zaleznosci;
     unsigned _ilosc_krokow;
+    unsigned _max_ilosc_krokow;
     int _rodzaj_selekcji;
     double _p_selekcji;
     bool _elita;

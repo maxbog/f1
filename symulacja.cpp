@@ -12,7 +12,7 @@ bool mniejszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
 }
 
 Symulacja::Symulacja()
-    :  _rodzaj_selekcji(0), _p_selekcji(1), _elita(false), _najlepszy(false), _wielopunktowe(false)
+    : _max_ilosc_krokow(10000), _rodzaj_selekcji(0), _p_selekcji(1), _elita(false), _najlepszy(false), _wielopunktowe(false)
 {
 }
 
@@ -40,8 +40,9 @@ void Symulacja::wybierz_najlepszego() {
     }
 }
 
-void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr) {
+void Symulacja::inicjuj(unsigned wielkosc_populacji, unsigned max_ilosc_krokow, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr) {
     _ilosc_krokow = 0;
+    _max_ilosc_krokow = max_ilosc_krokow;
 
     _ogr = ogr;
     _trasa = tr;
