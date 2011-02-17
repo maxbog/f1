@@ -26,7 +26,7 @@ void MainWindow::on_buttonKrok_clicked()
 void MainWindow::on_buttonResetuj_clicked()
 {
 
-    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(),ui->checkElita->isChecked(), ui->comboKrzyzowanie->currentIndex() == 1);
+    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(), ui->checkElita->isChecked(), ui->comboKrzyzowanie->currentIndex() == 1);
     this->ui->buttonStart->setEnabled(true);
     this->ui->buttonStop->setEnabled(true);
     this->ui->buttonKrok->setEnabled(true);
@@ -90,14 +90,12 @@ void MainWindow::on_pushButton_2_clicked()
         ui->tabelkaOgraniczenia->setColumnWidth(0,70);
         ui->tabelkaOgraniczenia->setColumnWidth(1,150);
         for(int i = 0; i < ograniczenia.ileParametrow(); ++i) {
-            ogr_dane[i].first = QTableWidgetItem(QString::number(i));
-            ui->tabelkaOgraniczenia->setItem(i, 0, &ogr_dane[i].first);
+            ui->tabelkaOgraniczenia->setItem(i, 0,  new QTableWidgetItem(QString::number(i)));
             QString tmp = QString("%1").arg(ograniczenia.Parametr(i,0));
             for(int j = 1; j < ograniczenia.ileOgraniczen(i); ++j) {
                 tmp.append(QString(", %1").arg(ograniczenia.Parametr(i,j)));
             }
-            ogr_dane[i].second = QTableWidgetItem(tmp);
-            ui->tabelkaOgraniczenia->setItem(i, 1, &ogr_dane[i].second);
+            ui->tabelkaOgraniczenia->setItem(i, 1, new QTableWidgetItem(tmp));
         }
     }
 }
@@ -184,22 +182,19 @@ void MainWindow::on_buttonLosuj_clicked()
         }
     }
 
-//    ui->tabelkaOgraniczenia->setColumnCount(2);
-//    ui->tabelkaOgraniczenia->setRowCount(ograniczenia.ileParametrow());
-//    ogr_dane.resize(ograniczenia.ileParametrow());
-//    ui->tabelkaOgraniczenia->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Dopuszczalne wartosci");
-//    ui->tabelkaOgraniczenia->setColumnWidth(0,70);
-//    ui->tabelkaOgraniczenia->setColumnWidth(1,150);
-//    for(int i = 0; i < ograniczenia.ileParametrow(); ++i) {
-//        ogr_dane[i].first = QTableWidgetItem(QString::number(i));
-//        ui->tabelkaOgraniczenia->setItem(i, 0, &ogr_dane[i].first);
-//        QString tmp = QString("%1").arg(ograniczenia.Parametr(i,0));
-//        for(int j = 1; j < ograniczenia.ileOgraniczen(i); ++j) {
-//            tmp.append(QString(", %1").arg(ograniczenia.Parametr(i,j)));
-//        }
-//        ogr_dane[i].second = QTableWidgetItem(tmp);
-//        ui->tabelkaOgraniczenia->setItem(i, 1, &ogr_dane[i].second);
-//    }
+    ui->tabelkaOgraniczenia->setColumnCount(2);
+    ui->tabelkaOgraniczenia->setRowCount(ograniczenia.ileParametrow());
+    ui->tabelkaOgraniczenia->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Dopuszczalne wartosci");
+    ui->tabelkaOgraniczenia->setColumnWidth(0,70);
+    ui->tabelkaOgraniczenia->setColumnWidth(1,150);
+    for(int i = 0; i < ograniczenia.ileParametrow(); ++i) {
+        ui->tabelkaOgraniczenia->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
+        QString tmp = QString("%1").arg(ograniczenia.Parametr(i,0));
+        for(int j = 1; j < ograniczenia.ileOgraniczen(i); ++j) {
+            tmp.append(QString(", %1").arg(ograniczenia.Parametr(i,j)));
+        }
+        ui->tabelkaOgraniczenia->setItem(i, 1, new QTableWidgetItem(tmp));
+    }
 
 }
 
