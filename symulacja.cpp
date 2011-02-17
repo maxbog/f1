@@ -33,8 +33,8 @@ void Symulacja::zapisz_dane() {
     double srednia = 0;
     double odchylenie = 0;
     for(int i = 0; i < _populacja.size();++i) {
-        if(min > _populacja[i].ocena()) {
-            min = _populacja[i].ocena();
+        if(max < _populacja[i].ocena()) {
+            max = _populacja[i].ocena();
         }
         srednia += _populacja[i].ocena();
         odchylenie += _populacja[i].ocena()*_populacja[i].ocena();
