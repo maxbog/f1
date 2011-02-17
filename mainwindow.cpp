@@ -26,7 +26,7 @@ void MainWindow::on_buttonKrok_clicked()
 void MainWindow::on_buttonResetuj_clicked()
 {
 
-    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa, ui->comboBox->currentIndex(),ui->spinPrawd->value(), ui->checkElita->isChecked(), ui->comboKrzyzowanie->currentIndex() == 1);
+    symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ograniczenia, zaleznosci, trasa);
     this->ui->buttonStart->setEnabled(true);
     this->ui->buttonStop->setEnabled(true);
     this->ui->buttonKrok->setEnabled(true);
@@ -83,20 +83,7 @@ void MainWindow::on_pushButton_2_clicked()
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik ograniczen", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
         ograniczenia.Wczytaj(plik);
-        ui->tabelkaOgraniczenia->setColumnCount(2);
-        ui->tabelkaOgraniczenia->setRowCount(ograniczenia.ileParametrow());
-        ogr_dane.resize(ograniczenia.ileParametrow());
-        ui->tabelkaOgraniczenia->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Dopuszczalne wartosci");
-        ui->tabelkaOgraniczenia->setColumnWidth(0,70);
-        ui->tabelkaOgraniczenia->setColumnWidth(1,150);
-        for(int i = 0; i < ograniczenia.ileParametrow(); ++i) {
-            ui->tabelkaOgraniczenia->setItem(i, 0,  new QTableWidgetItem(QString::number(i)));
-            QString tmp = QString("%1").arg(ograniczenia.Parametr(i,0));
-            for(int j = 1; j < ograniczenia.ileOgraniczen(i); ++j) {
-                tmp.append(QString(", %1").arg(ograniczenia.Parametr(i,j)));
-            }
-            ui->tabelkaOgraniczenia->setItem(i, 1, new QTableWidgetItem(tmp));
-        }
+        odswiez_ograniczenia();
     }
 }
 
@@ -105,21 +92,13 @@ void MainWindow::on_pushButton_clicked() // wczytywanie trasy
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik trasy", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
         trasa.Wczytaj(plik);
-        ui->tabelkaTrasa->setColumnCount(trasa.ileParametrow());
-        ui->tabelkaTrasa->setRowCount(trasa.ileOdcinkow());
-        for(int i=0; i<trasa.ileOdcinkow(); ++i) {
-            for(int j=0; j<trasa.ileParametrow(); ++j) {
-                ui->tabelkaTrasa->setColumnWidth(j,40);
-                QTableWidgetItem *element = new QTableWidgetItem(QString::number(trasa.Parametr(i,j)),0);
-                ui->tabelkaTrasa->setItem(i,j,element);
-            }
-        }
+        odswiez_trase();
     }
 }
 
-void MainWindow::on_comboBox_activated(int )
+void MainWindow::on_comboSelekcja_activated(int )
 {
-    switch(ui->comboBox->currentIndex()) {
+    switch(ui->comboSelekcja->currentIndex()) {
     case 3: {
             ui->label_8->setEnabled(false);
             ui->spinPrawd->setEnabled(false);
@@ -129,7 +108,7 @@ void MainWindow::on_comboBox_activated(int )
             ui->label_8->setEnabled(true);
             ui->label_8->setText("Prawd. wyboru");
             ui->spinPrawd->setEnabled(true);
-            ui->spinPrawd->setValue(symulacja.prawdTurniejowe());
+            ui->spinPrawd->setValue(symulacja.prawdSelekcji());
             break;
         }
     default: {
@@ -151,16 +130,7 @@ void MainWindow::on_pushButton_8_clicked()
 
 void MainWindow::on_spinPrawd_valueChanged(double )
 {
-    switch(ui->comboBox->currentIndex()) {
-    case 2: {
-            symulacja.prawdTurniejowe(ui->spinPrawd->value());
-            break;
-        }
-    case 1: {
-
-            break;
-        }
-    }
+    symulacja.prawdSelekcji(ui->spinPrawd->value());
 }
 
 void MainWindow::on_buttonLosuj_clicked()
@@ -169,19 +139,33 @@ void MainWindow::on_buttonLosuj_clicked()
     ograniczenia.Losuj(ui->spinIleParPoj->value());
     zaleznosci.Losuj(ui->spinIleParamDr->value(),ograniczenia.wekt());
 
-    ui->tabelkaTrasa->clear();
+    odswiez_trase();
+    odswiez_ograniczenia();
+
+}
+
+void MainWindow::on_comboKrzyzowanie_currentIndexChanged(int index)
+{
+    symulacja.krzyzWielopunktowe(index == 1);
+}
+
+void MainWindow::on_checkNajlepszy_toggled(bool checked)
+{
+    symulacja.wyborNajlepszego(checked);
+}
+
+void MainWindow::on_checkElita_toggled(bool checked)
+{
+    symulacja.wyborElity(checked);
+}
+
+void MainWindow::on_comboSelekcja_currentIndexChanged(int index)
+{
+    symulacja.rodzajSelekcji(index);
+}
+
+void MainWindow::odswiez_ograniczenia() {
     ui->tabelkaOgraniczenia->clear();
-
-    ui->tabelkaTrasa->setColumnCount(trasa.ileParametrow());
-    ui->tabelkaTrasa->setRowCount(trasa.ileOdcinkow());
-    for(int i=0; i<trasa.ileOdcinkow(); ++i) {
-        for(int j=0; j<trasa.ileParametrow(); ++j) {
-            ui->tabelkaTrasa->setColumnWidth(j,40);
-            QTableWidgetItem *element = new QTableWidgetItem(QString::number(trasa.Parametr(i,j)),0);
-            ui->tabelkaTrasa->setItem(i,j,element);
-        }
-    }
-
     ui->tabelkaOgraniczenia->setColumnCount(2);
     ui->tabelkaOgraniczenia->setRowCount(ograniczenia.ileParametrow());
     ui->tabelkaOgraniczenia->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Dopuszczalne wartosci");
@@ -195,15 +179,17 @@ void MainWindow::on_buttonLosuj_clicked()
         }
         ui->tabelkaOgraniczenia->setItem(i, 1, new QTableWidgetItem(tmp));
     }
-
 }
 
-void MainWindow::on_comboKrzyzowanie_currentIndexChanged(int index)
-{
-    symulacja.krzyzWielopunktowe(index == 1);
-}
-
-void MainWindow::on_checkNajlepszy_toggled(bool checked)
-{
-    symulacja.wyborNajlepszego(checked);
+void MainWindow::odswiez_trase() {
+    ui->tabelkaTrasa->clear();
+    ui->tabelkaTrasa->setColumnCount(trasa.ileParametrow());
+    ui->tabelkaTrasa->setRowCount(trasa.ileOdcinkow());
+    for(int i=0; i<trasa.ileOdcinkow(); ++i) {
+        for(int j=0; j<trasa.ileParametrow(); ++j) {
+            ui->tabelkaTrasa->setColumnWidth(j,40);
+            QTableWidgetItem *element = new QTableWidgetItem(QString::number(trasa.Parametr(i,j)),0);
+            ui->tabelkaTrasa->setItem(i,j,element);
+        }
+    }
 }

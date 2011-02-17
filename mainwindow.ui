@@ -161,7 +161,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="comboSelekcja">
         <item>
          <property name="text">
           <string>Metoda ruletki</string>
@@ -216,6 +216,9 @@
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
         </property>
        </widget>
       </item>

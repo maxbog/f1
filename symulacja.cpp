@@ -12,7 +12,7 @@ bool mniejszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
 }
 
 Symulacja::Symulacja()
-    :  _p_turniejowe(1)
+    :  _rodzaj_selekcji(0), _p_selekcji(1), _elita(false), _najlepszy(false), _wielopunktowe(false)
 {
 }
 
@@ -40,20 +40,12 @@ void Symulacja::wybierz_najlepszego() {
     }
 }
 
-void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr,
-                        int rodzaj_selekcji, double prawd_selekcji, bool elita, bool wielopunktowe) {
+void Symulacja::inicjuj(unsigned wielkosc_populacji, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr) {
     _ilosc_krokow = 0;
-    _rodzaj_selekcji = rodzaj_selekcji;
-
-    _p_turniejowe = prawd_selekcji;
-    //_najlepszy = najlepszy;
-    _elita = elita;
-    _wielopunktowe = wielopunktowe;
 
     _ogr = ogr;
     _trasa = tr;
     _zaleznosci = mzal;
-    _elita = elita;
     _populacja.clear();
     for(unsigned i = 0; i < wielkosc_populacji; ++i) {
         _populacja.append(Chromosom::losuj(_ogr));
@@ -137,8 +129,8 @@ void Symulacja::selekcja() {
                     b = t;
                 }
 
-                if( p1 <= _p_turniejowe) nowa_populacja.append(_populacja[a]);      // zwyciezca
-                if( p2 <= _p_turniejowe*(1-_p_turniejowe) ) nowa_populacja.append(_populacja[b]);
+                if( p1 <= _p_selekcji) nowa_populacja.append(_populacja[a]);      // zwyciezca
+                if( p2 <= _p_selekcji*(1-_p_selekcji) ) nowa_populacja.append(_populacja[b]);
             }
             if(nowa_populacja.size() > 0)
             _populacja = nowa_populacja;

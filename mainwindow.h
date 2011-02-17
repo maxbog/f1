@@ -24,12 +24,14 @@ public:
     QTimer timer;
 
 private slots:
+    void on_comboSelekcja_currentIndexChanged(int index);
+    void on_checkElita_toggled(bool checked);
     void on_checkNajlepszy_toggled(bool checked);
     void on_comboKrzyzowanie_currentIndexChanged(int index);
     void on_buttonLosuj_clicked();
     void on_spinPrawd_valueChanged(double );
     void on_pushButton_8_clicked();
-    void on_comboBox_activated(int );
+    void on_comboSelekcja_activated(int );
     void on_pushButton_2_clicked();
     void on_pushButton_clicked();
     void on_buttonStart_clicked();
@@ -49,6 +51,9 @@ private:
     Trasa trasa;
     MacierzZaleznosci zaleznosci;
     QVector<QPair<QTableWidgetItem,QTableWidgetItem> > ogr_dane;
+
+    void odswiez_ograniczenia();
+    void odswiez_trase();
 };
 
 #endif // MAINWINDOW_H
