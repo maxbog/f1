@@ -2,6 +2,7 @@
 #define SYMULACJA_H
 
 #include "chromosom.h"
+#include "dane.h"
 #include <QVector>
 
 class Symulacja
@@ -29,6 +30,7 @@ public:
     unsigned iloscKrokow() const { return _ilosc_krokow; }
     unsigned maxIloscKrokow() const { return _max_ilosc_krokow; }
     bool zakonczona() const { return _ilosc_krokow >= _max_ilosc_krokow; }
+    Dane zapisaneDane() const { return _zapisaneDane; }
 
 private:
     QVector<Chromosom> _populacja;
@@ -44,9 +46,11 @@ private:
     bool _wielopunktowe;
     Chromosom _najlepszyWSymulacji;
     Chromosom _najlepszyGlobalnie;
+    Dane _zapisaneDane;
 
     void quicksort(QVector<int>&,int,int);
     void wybierz_najlepszego();
+    void zapisz_dane();
 };
 
 #endif // SYMULACJA_H

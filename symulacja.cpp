@@ -2,6 +2,7 @@
 
 #include "random.h"
 #include <limits>
+#include <cmath>
 
 bool wiekszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
     return ch1.ocena() > ch2.ocena();
@@ -23,7 +24,26 @@ void Symulacja::krok() {
     mutacja(0.25);
     ocen_populacje();
     wybierz_najlepszego();
+    zapisz_dane();
 }
+
+void Symulacja::zapisz_dane() {
+    int min = _najlepszyWSymulacji.ocena();
+    int max = _najlepszyWSymulacji.ocena();
+    double srednia = 0;
+    double odchylenie = 0;
+    for(int i = 0; i < _populacja.size();++i) {
+        if(min > _populacja[i].ocena()) {
+            min = _populacja[i].ocena();
+        }
+        srednia += _populacja[i].ocena();
+        odchylenie += _populacja[i].ocena()*_populacja[i].ocena();
+    }
+    srednia /= _populacja.size();
+    odchylenie = std::sqrt(odchylenie / _populacja.size() - srednia * srednia);
+    _zapisaneDane.dodaj(min, max, srednia, odchylenie);
+}
+
 void Symulacja::wybierz_najlepszego() {
     int naj_index = 0;
     int naj_ocena = std::numeric_limits<int>::min();
@@ -43,6 +63,9 @@ void Symulacja::wybierz_najlepszego() {
 void Symulacja::inicjuj(unsigned wielkosc_populacji, unsigned max_ilosc_krokow, const OgraniczeniaF1& ogr, const MacierzZaleznosci& mzal, const Trasa& tr) {
     _ilosc_krokow = 0;
     _max_ilosc_krokow = max_ilosc_krokow;
+
+    _zapisaneDane.wyczysc();
+    _zapisaneDane.dodaj(0,0,0,0);
 
     _ogr = ogr;
     _trasa = tr;

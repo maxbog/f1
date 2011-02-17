@@ -9,18 +9,19 @@ QT       += core gui
 TARGET = f1
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     random.cpp \
     chromosom.cpp \
     parametry.cpp \
-    symulacja.cpp
+    symulacja.cpp \
+    dane.cpp
 
 HEADERS  += mainwindow.h \
     random.h \
     chromosom.h \
     parametry.h \
-    symulacja.h
+    symulacja.h \
+    dane.h
 
 FORMS    += mainwindow.ui
