@@ -15,13 +15,27 @@ SOURCES += main.cpp\
     chromosom.cpp \
     parametry.cpp \
     symulacja.cpp \
-    dane.cpp
+    dane.cpp \
+    wykres.cpp
 
 HEADERS  += mainwindow.h \
     random.h \
     chromosom.h \
     parametry.h \
     symulacja.h \
-    dane.h
+    dane.h \
+    wykres.h
 
 FORMS    += mainwindow.ui
+
+INCLUDEPATH += C:\Qt\2010.05\qwt-6.0.0-rc5\src
+DEPENDPATH += C:\Qt\2010.05\qwt-6.0.0-rc5\lib
+LIBS += -LC:\Qt\2010.05\qwt-6.0.0-rc5\lib
+
+win32 {
+     CONFIG(debug, debug|release) {
+         LIBS += -lqwtd
+     } else {
+         LIBS += -lqwt
+     }
+}

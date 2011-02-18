@@ -8,6 +8,8 @@
 #include <QPair>
 #include "symulacja.h"
 #include "parametry.h"
+#include "wykres.h"
+
 
 namespace Ui {
     class MainWindow;
@@ -24,6 +26,7 @@ public:
     QTimer timer;
 
 private slots:
+    void on_buttonWyniki_clicked();
     void on_comboSelekcja_currentIndexChanged(int index);
     void on_checkElita_toggled(bool checked);
     void on_checkNajlepszy_toggled(bool checked);
@@ -54,6 +57,9 @@ private:
 
     void odswiez_ograniczenia();
     void odswiez_trase();
+
+    wykres w;
+
 };
 
 #endif // MAINWINDOW_H

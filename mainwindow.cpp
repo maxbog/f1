@@ -3,6 +3,13 @@
 #include <QTableWidgetItem>
 
 #include <QFileDialog>
+#include <qwt_plot.h>
+#include <qwt_plot_curve.h>
+#include <qwt_legend_item.h>
+#include <qwt_legend.h>
+#include <qwt_text.h>
+
+#include "dane.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -201,4 +208,21 @@ void MainWindow::odswiez_trase() {
             ui->tabelkaTrasa->setItem(i,j,element);
         }
     }
+}
+
+void MainWindow::on_buttonWyniki_clicked()
+{
+
+
+    QVector<double> min = symulacja.zapisaneDane().minima();
+    QVector<double> max = symulacja.zapisaneDane().maksima();
+    QVector<double> sr = symulacja.zapisaneDane().srednie();
+    QVector<double> odch = symulacja.zapisaneDane().odchylenia();
+
+    w.ustaw_czas(symulacja.iloscKrokow());
+    w.dodaj_naj(double(symulacja.najlepszyGlobalnie().ocena()));
+    w.dodaj(min,max,sr,odch);
+
+    w.show();
+
 }
