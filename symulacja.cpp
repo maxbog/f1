@@ -183,7 +183,7 @@ void Symulacja::selekcja() {
 
     }
 
-    if(_elita) _populacja.append(_najlepszyWSymulacji);
+    if(_elita) _populacja[0] = _najlepszyWSymulacji;
 
 }
 
