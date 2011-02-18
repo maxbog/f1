@@ -22,8 +22,6 @@ public:
 
     int ocena() const { return _ocena; }
 
-    static Chromosom najgorszyMozliwy();
-
     static Chromosom wczytaj(QString nazwa_pliku);
     static Chromosom losuj(const OgraniczeniaF1&);
 
