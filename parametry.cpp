@@ -108,10 +108,10 @@ void OgraniczeniaF1::Losuj(int param) {
 
 
     for (int i=0; i<param; ++i ) {
-        ograniczenia_poj = rand.nastInt(3) + 2;         // od 2 do 5 mozliwych wartosci, jakie moze przybrac dany parametr f1
+        ograniczenia_poj = rand.nastInt(30) + 2;         // od 2 do 5 mozliwych wartosci, jakie moze przybrac dany parametr f1
         for (int j=0; j< ograniczenia_poj; ++j) {
             do {
-            a = rand.nastInt(5)+1;                  // parametr moze miec wartosci od 1 do 6, w sumie mozna to zmienic ;]
+            a = rand.nastInt(60)+1;                  // parametr moze miec wartosci od 1 do 6, w sumie mozna to zmienic ;]
         }
             while(tmp.contains(a));
             tmp.append(a);

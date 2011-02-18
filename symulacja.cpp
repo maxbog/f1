@@ -126,7 +126,7 @@ void Symulacja::selekcja() {
 
             dystrybuanty[dystrybuanty.size() - 1] = 1.01;
 
-            for (int i=0; i < _populacja.size(); ++i ) {
+            for (int i=1; i < _populacja.size(); ++i ) {
                 double p = rand.nastDouble();
                 for (int j=0; j< _populacja.size(); ++j) {
                     if (p < dystrybuanty[j]) nowa_populacja[i] = _populacja[j];
@@ -141,7 +141,8 @@ void Symulacja::selekcja() {
             int a, b;
             double p1, p2;
             QVector<Chromosom> nowa_populacja;
-            for(int i=0;i<_populacja.size();++i) {
+            nowa_populacja.append(Chromosom()); // potem zostanie zast¹piony najlepszym
+            for(int i=0;i+1<_populacja.size();++i) {
 
                 a = rand.nastInt(_populacja.size()-1);
                 b = rand.nastInt(_populacja.size()-1);
@@ -165,10 +166,9 @@ void Symulacja::selekcja() {
     case 3: { // liniowa wg indeksów
             Random rand;
             qSort(_populacja.begin(), _populacja.end(), mniejszy_ocena);
-            QVector<double> dystrybuanty(_populacja.size());
             double wszystkie = _populacja.size() * (_populacja.size() + 1) / 2;
             QVector<Chromosom> stara_populacja(_populacja);
-            for(int i = 0; i < _populacja.size(); ++i) {
+            for(int i = 1; i < _populacja.size(); ++i) {
                 double los = rand.nastDouble();
                 for(int j = 0; j < _populacja.size(); ++j) {
                     if(los < (j+1)*(j+2)/(2*wszystkie) + 0.001) {
@@ -183,7 +183,7 @@ void Symulacja::selekcja() {
 
     }
 
-    if(_elita) _populacja.append(_najlepszyWSymulacji);
+    if(_elita) _populacja[0] = _najlepszyWSymulacji;
 
 }
 
