@@ -1,0 +1,8 @@
+3
+par_poj1
+par_poj2
+par_poj3
+3
+par_trasy1
+par_trasy2
+par_trasy3

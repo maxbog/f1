@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>794</width>
-    <height>586</height>
+    <height>630</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>300</y>
+      <y>340</y>
       <width>261</width>
       <height>251</height>
      </rect>
@@ -219,7 +219,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>560</y>
+      <y>600</y>
       <width>781</width>
       <height>25</height>
      </rect>
@@ -297,7 +297,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>300</y>
+      <y>340</y>
       <width>251</width>
       <height>251</height>
      </rect>
@@ -339,9 +339,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>160</y>
       <width>161</width>
-      <height>111</height>
+      <height>171</height>
      </rect>
     </property>
     <property name="title">
@@ -353,26 +353,49 @@
        <x>10</x>
        <y>20</y>
        <width>141</width>
-       <height>83</height>
+       <height>141</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="pushWszystko">
+        <property name="text">
+         <string>Wczytaj wszystko</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushNazwy">
+        <property name="text">
+         <string>Wczytaj nazwy</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushTrasa">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Wczytaj trasę</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="pushOgraniczenia">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Wczytaj ograniczenia</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_8">
+       <widget class="QPushButton" name="pushZaleznosci">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Wczytaj zależności</string>
         </property>
@@ -491,7 +514,7 @@
       <x>180</x>
       <y>10</y>
       <width>331</width>
-      <height>271</height>
+      <height>321</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -526,7 +549,7 @@
       <x>520</x>
       <y>10</y>
       <width>261</width>
-      <height>271</height>
+      <height>321</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -546,7 +569,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>300</y>
+      <y>340</y>
       <width>251</width>
       <height>251</height>
      </rect>

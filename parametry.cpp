@@ -245,3 +245,47 @@ int MacierzZaleznosci::Parametr(int param_poj,int param_droga,int wsp_poj,int ws
     int id_wsp_poj = wspPoj[param_poj].indexOf(wsp_poj);
     return wektZaleznosci.at(param_poj).at(param_droga).at(id_wsp_poj).at(id_wsp_drogi);
 }
+
+Nazwy::Nazwy()
+    : _samochod(), _trasa() {
+
+}
+
+
+void Nazwy::Wczytaj(const QString& plik) {
+    wyczysc();
+
+    QFile file(plik);
+    if(!file.open(QFile::ReadOnly)) {
+        // TODO: jakiœ log/raportowanie b³êdów?
+        throw std::runtime_error("plik nie istnieje");
+    }
+
+    QTextStream in(&file);
+    int parametry_poj, parametry_trasy;
+    in >> parametry_poj;
+    in.readLine(); // doczytujemy koniec linii
+    for(int i=0; i < parametry_poj; ++i) {
+        _samochod.append(in.readLine());
+    }
+    in >> parametry_trasy;
+    in.readLine(); // doczytujemy koniec linii
+    for(int i=0; i < parametry_trasy; ++i) {
+        _trasa.append(in.readLine());
+    }
+}
+
+int Nazwy::dodajParSamochodu(const QString & nazwa) {
+    _samochod.append(nazwa);
+    return _samochod.size() - 1;
+}
+
+int Nazwy::dodajParTrasy(const QString & nazwa) {
+    _trasa.append(nazwa);
+    return _trasa.size() - 1;
+}
+
+void Nazwy::wyczysc() {
+    _samochod.clear();
+    _trasa.clear();
+}

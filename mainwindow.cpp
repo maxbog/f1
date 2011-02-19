@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QTableWidgetItem>
 
+#include <stdexcept>
+
 #include <QFileDialog>
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
@@ -64,7 +66,7 @@ void MainWindow::tykniecie()
     ui->tabelkaNajlepszy->setColumnWidth(0,70);
     ui->tabelkaNajlepszy->setColumnWidth(1,70);
     for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
-        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+        QTableWidgetItem *numer = new QTableWidgetItem(nazwy.parametrSamochodu(i));
         QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
         ui->tabelkaNajlepszy->setItem(i,0,numer);
         ui->tabelkaNajlepszy->setItem(i,1,par);
@@ -80,7 +82,7 @@ void MainWindow::tykniecie()
         ui->tabelkaNajlepszyGlobalnie->setColumnWidth(0,70);
         ui->tabelkaNajlepszyGlobalnie->setColumnWidth(1,70);
         for(int i = 0; i < najlepszyGlobalnie.ileParametrow(); ++i) {
-            QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+            QTableWidgetItem *numer = new QTableWidgetItem(nazwy.parametrSamochodu(i));
             QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszyGlobalnie.Parametr(i)));
             ui->tabelkaNajlepszyGlobalnie->setItem(i,0,numer);
             ui->tabelkaNajlepszyGlobalnie->setItem(i,1,par);
@@ -95,7 +97,7 @@ void MainWindow::tykniecie()
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushOgraniczenia_clicked()
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik ograniczen", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
@@ -104,7 +106,7 @@ void MainWindow::on_pushButton_2_clicked()
     }
 }
 
-void MainWindow::on_pushButton_clicked() // wczytywanie trasy
+void MainWindow::on_pushTrasa_clicked() // wczytywanie trasy
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik trasy", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
@@ -137,7 +139,7 @@ void MainWindow::on_comboSelekcja_activated(int )
 
 }
 
-void MainWindow::on_pushButton_8_clicked()
+void MainWindow::on_pushZaleznosci_clicked()
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik zale¿noœci", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
@@ -155,6 +157,14 @@ void MainWindow::on_buttonLosuj_clicked()
     trasa.Losuj(ui->spinIleOdc->value(), ui->spinIleParamDr->value());
     ograniczenia.Losuj(ui->spinIleParPoj->value());
     zaleznosci.Losuj(ui->spinIleParamDr->value(),ograniczenia.wekt());
+
+    nazwy.wyczysc();
+    for(int i = 0; i < ui->spinIleParPoj->value(); ++i) {
+        nazwy.dodajParSamochodu(QString::number(i));
+    }
+    for(int i = 0; i < ui->spinIleParamDr->value(); ++i) {
+        nazwy.dodajParTrasy(QString::number(i));
+    }
 
     odswiez_trase();
     odswiez_ograniczenia();
@@ -188,7 +198,7 @@ void MainWindow::odswiez_ograniczenia() {
     ui->tabelkaOgraniczenia->setColumnWidth(0,70);
     ui->tabelkaOgraniczenia->setColumnWidth(1,150);
     for(int i = 0; i < ograniczenia.ileParametrow(); ++i) {
-        ui->tabelkaOgraniczenia->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
+        ui->tabelkaOgraniczenia->setItem(i, 0, new QTableWidgetItem(nazwy.parametrSamochodu(i)));
         QString tmp = QString("%1").arg(ograniczenia.Parametr(i,0));
         for(int j = 1; j < ograniczenia.ileOgraniczen(i); ++j) {
             tmp.append(QString(", %1").arg(ograniczenia.Parametr(i,j)));
@@ -203,6 +213,7 @@ void MainWindow::odswiez_trase() {
     ui->tabelkaTrasa->setRowCount(trasa.ileOdcinkow());
     for(int i=0; i<trasa.ileOdcinkow(); ++i) {
         for(int j=0; j<trasa.ileParametrow(); ++j) {
+            ui->tabelkaTrasa->setHorizontalHeaderItem(j, new QTableWidgetItem(nazwy.parametrTrasy(j)));
             ui->tabelkaTrasa->setColumnWidth(j,40);
             QTableWidgetItem *element = new QTableWidgetItem(QString::number(trasa.Parametr(i,j)),0);
             ui->tabelkaTrasa->setItem(i,j,element);
@@ -225,4 +236,39 @@ void MainWindow::on_buttonWyniki_clicked()
 
     w.show();
 
+}
+
+void MainWindow::on_pushNazwy_clicked()
+{
+    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik z nazwami", ".", "Pliki tekstowe (*.txt)");
+    if(plik != "") {
+        nazwy.Wczytaj(plik);
+        ui->pushTrasa->setEnabled(true);
+        ui->pushOgraniczenia->setEnabled(true);
+        ui->pushZaleznosci->setEnabled(true);
+    }
+}
+
+void MainWindow::on_pushWszystko_clicked()
+{
+    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik z danymi", ".", "Pliki tekstowe (*.txt)");
+    if(plik != "") {
+        QFile file(plik);
+        if(!file.open(QFile::ReadOnly)) {
+            // TODO: jakiœ log/raportowanie b³êdów?
+            throw std::runtime_error("plik nie istnieje");
+        }
+
+        QTextStream in(&file);
+        nazwy.Wczytaj(in.readLine());
+        trasa.Wczytaj(in.readLine());
+        ograniczenia.Wczytaj(in.readLine());
+        zaleznosci.Wczytaj(in.readLine());
+
+        odswiez_ograniczenia();
+        odswiez_trase();
+        ui->pushTrasa->setEnabled(true);
+        ui->pushOgraniczenia->setEnabled(true);
+        ui->pushZaleznosci->setEnabled(true);
+    }
 }

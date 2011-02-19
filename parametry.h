@@ -55,5 +55,22 @@ private:
     int ograniczenia_poj,parametry_poj,parametry_drogi;
 };
 
+class Nazwy {
+public:
+    Nazwy();
+    QString parametrSamochodu(int i) const { return _samochod[i]; }
+    QString parametrTrasy(int i) const { return _trasa[i]; }
+
+    int dodajParSamochodu(const QString & nazwa);
+    int dodajParTrasy(const QString & nazwa);
+
+    void Wczytaj(const QString& plik);
+
+    void wyczysc();
+private:
+    QVector<QString> _samochod;
+    QVector<QString> _trasa;
+};
+
 
 #endif // PARAMETRY_H

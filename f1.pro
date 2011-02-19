@@ -9,6 +9,8 @@ QT       += core gui
 TARGET = f1
 TEMPLATE = app
 
+CONFIG += qwt
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     random.cpp \
@@ -28,14 +30,3 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-INCLUDEPATH += C:\Qt\2010.05\qwt-6.0.0-rc5\src
-DEPENDPATH += C:\Qt\2010.05\qwt-6.0.0-rc5\lib
-LIBS += -LC:\Qt\2010.05\qwt-6.0.0-rc5\lib
-
-win32 {
-     CONFIG(debug, debug|release) {
-         LIBS += -lqwtd
-     } else {
-         LIBS += -lqwt
-     }
-}
