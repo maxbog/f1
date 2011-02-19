@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include <QFileDialog>
+#include <QMessageBox>
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 #include <qwt_legend_item.h>
@@ -62,7 +63,7 @@ void MainWindow::tykniecie()
     ui->najlepszyOcena->setText(QString::number(-najlepszy.ocena()));
     ui->tabelkaNajlepszy->setColumnCount(2);
     ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
-    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Warto��");
+    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartość");
     ui->tabelkaNajlepszy->setColumnWidth(0,70);
     ui->tabelkaNajlepszy->setColumnWidth(1,70);
     for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
@@ -78,7 +79,7 @@ void MainWindow::tykniecie()
         ui->najlepszyOcenaGlobalnie->setText(QString::number(-najlepszyGlobalnie.ocena()));
         ui->tabelkaNajlepszyGlobalnie->setColumnCount(2);
         ui->tabelkaNajlepszyGlobalnie->setRowCount(najlepszyGlobalnie.ileParametrow());
-        ui->tabelkaNajlepszyGlobalnie->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Warto��");
+        ui->tabelkaNajlepszyGlobalnie->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartość");
         ui->tabelkaNajlepszyGlobalnie->setColumnWidth(0,70);
         ui->tabelkaNajlepszyGlobalnie->setColumnWidth(1,70);
         for(int i = 0; i < najlepszyGlobalnie.ileParametrow(); ++i) {
@@ -101,8 +102,12 @@ void MainWindow::on_pushOgraniczenia_clicked()
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik ograniczen", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
-        ograniczenia.Wczytaj(plik);
-        odswiez_ograniczenia();
+        try {
+            ograniczenia.Wczytaj(plik);
+            odswiez_ograniczenia();
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania ograniczeń: ") + error.what());
+        }
     }
 }
 
@@ -110,8 +115,12 @@ void MainWindow::on_pushTrasa_clicked() // wczytywanie trasy
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik trasy", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
-        trasa.Wczytaj(plik);
-        odswiez_trase();
+        try {
+            trasa.Wczytaj(plik);
+            odswiez_trase();
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania trasy: ") + error.what());
+        }
     }
 }
 
@@ -141,9 +150,13 @@ void MainWindow::on_comboSelekcja_activated(int )
 
 void MainWindow::on_pushZaleznosci_clicked()
 {
-    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik zale�no�ci", ".", "Pliki tekstowe (*.txt)");
+    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik zależności", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
-        zaleznosci.Wczytaj(plik);
+        try {
+            zaleznosci.Wczytaj(plik);
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania zależności: ") + error.what());
+        }
     }
 }
 
@@ -242,10 +255,14 @@ void MainWindow::on_pushNazwy_clicked()
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik z nazwami", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
-        nazwy.Wczytaj(plik);
-        ui->pushTrasa->setEnabled(true);
-        ui->pushOgraniczenia->setEnabled(true);
-        ui->pushZaleznosci->setEnabled(true);
+        try {
+            nazwy.Wczytaj(plik);
+            ui->pushTrasa->setEnabled(true);
+            ui->pushOgraniczenia->setEnabled(true);
+            ui->pushZaleznosci->setEnabled(true);
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania nazw: ") + error.what());
+        }
     }
 }
 
@@ -255,15 +272,39 @@ void MainWindow::on_pushWszystko_clicked()
     if(plik != "") {
         QFile file(plik);
         if(!file.open(QFile::ReadOnly)) {
-            // TODO: jaki� log/raportowanie b��d�w?
-            throw std::runtime_error("plik nie istnieje");
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania: Plik '") + plik + "' nie istnieje.");
+            return;
         }
 
         QTextStream in(&file);
-        nazwy.Wczytaj(in.readLine());
-        trasa.Wczytaj(in.readLine());
-        ograniczenia.Wczytaj(in.readLine());
-        zaleznosci.Wczytaj(in.readLine());
+
+        try {
+            nazwy.Wczytaj(in.readLine());
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania nazw: ") + error.what());
+            return;
+        }
+
+        try {
+            trasa.Wczytaj(in.readLine());
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania trasy: ") + error.what());
+            return;
+        }
+
+        try {
+            ograniczenia.Wczytaj(in.readLine());
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania ograniczeń: ") + error.what());
+            return;
+        }
+
+        try {
+            zaleznosci.Wczytaj(in.readLine());
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania zależności: ") + error.what());
+            return;
+        }
 
         odswiez_ograniczenia();
         odswiez_trase();

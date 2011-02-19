@@ -23,7 +23,7 @@ void Trasa::Wczytaj(QString plik) {
     QFile file(plik);
     if(!file.open(QFile::ReadOnly)) {
         // TODO: jakiœ log/raportowanie b³êdów?
-        throw std::runtime_error("plik nie istnieje");
+        throw std::runtime_error((QString("Plik '") + plik + "'nie istnieje.").toStdString());
     }
 
     QTextStream in(&file);
@@ -81,7 +81,7 @@ void OgraniczeniaF1::Wczytaj(QString plik) {
     QFile file(plik);
     if(!file.open(QFile::ReadOnly)) {
         // TODO: jakiœ log/raportowanie b³êdów?
-        throw std::runtime_error("plik nie istnieje");
+        throw std::runtime_error((QString("Plik '") + plik + "'nie istnieje.").toStdString());
     }
 
     QTextStream in(&file);                        // ograniczenia w postaci:
@@ -160,7 +160,7 @@ void MacierzZaleznosci::Wczytaj(QString plik) {
     QFile file(plik);
     if(!file.open(QFile::ReadOnly)) {
         // TODO: jakiœ log/raportowanie b³êdów?
-        throw std::runtime_error("plik nie istnieje");
+        throw std::runtime_error((QString("Plik '") + plik + "'nie istnieje.").toStdString());
     }
 
     QTextStream in(&file);
@@ -258,7 +258,7 @@ void Nazwy::Wczytaj(const QString& plik) {
     QFile file(plik);
     if(!file.open(QFile::ReadOnly)) {
         // TODO: jakiœ log/raportowanie b³êdów?
-        throw std::runtime_error("plik nie istnieje");
+        throw std::runtime_error((QString("Plik '") + plik + "'nie istnieje.").toStdString());
     }
 
     QTextStream in(&file);
