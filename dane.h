@@ -14,6 +14,7 @@ public:
     QVector<double> maksima() const { return _maksima; }
     QVector<double> srednie() const { return _srednie; }
     QVector<double> odchylenia() const { return _odchylenia; }
+    int iloscPunktow() const { return _minima.size(); }
     QVector<double> argumenty() const;
 
 private:

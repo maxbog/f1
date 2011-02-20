@@ -33,7 +33,7 @@ void Symulacja::zapisz_dane() {
     double srednia = 0;
     double odchylenie = 0;
     for(int i = 0; i < _populacja.size();++i) {
-        if(max < _populacja[i].ocena()) {
+        if(max > _populacja[i].ocena()) {
             max = _populacja[i].ocena();
         }
         srednia += _populacja[i].ocena();
@@ -41,7 +41,7 @@ void Symulacja::zapisz_dane() {
     }
     srednia /= _populacja.size();
     odchylenie = std::sqrt(odchylenie / _populacja.size() - srednia * srednia);
-    _zapisaneDane.dodaj(min, max, srednia, odchylenie);
+    _zapisaneDane.dodaj(-min, -max, -srednia, odchylenie);
 }
 
 void Symulacja::wybierz_najlepszego() {

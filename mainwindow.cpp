@@ -272,7 +272,7 @@ void MainWindow::on_pushWszystko_clicked()
     if(plik != "") {
         QFile file(plik);
         if(!file.open(QFile::ReadOnly)) {
-            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania: Plik '") + plik + "' nie istnieje.");
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania: Plik '") + plik + "' nie istnieje.");
             return;
         }
 
@@ -281,28 +281,28 @@ void MainWindow::on_pushWszystko_clicked()
         try {
             nazwy.Wczytaj(in.readLine());
         } catch(std::runtime_error error) {
-            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania nazw: ") + error.what());
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania nazw: ") + error.what());
             return;
         }
 
         try {
             trasa.Wczytaj(in.readLine());
         } catch(std::runtime_error error) {
-            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania trasy: ") + error.what());
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania trasy: ") + error.what());
             return;
         }
 
         try {
             ograniczenia.Wczytaj(in.readLine());
         } catch(std::runtime_error error) {
-            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania ograniczeń: ") + error.what());
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania ograniczeń: ") + error.what());
             return;
         }
 
         try {
             zaleznosci.Wczytaj(in.readLine());
         } catch(std::runtime_error error) {
-            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania zależności: ") + error.what());
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania zależności: ") + error.what());
             return;
         }
 
@@ -311,5 +311,22 @@ void MainWindow::on_pushWszystko_clicked()
         ui->pushTrasa->setEnabled(true);
         ui->pushOgraniczenia->setEnabled(true);
         ui->pushZaleznosci->setEnabled(true);
+    }
+}
+
+void MainWindow::on_pushEksport_clicked()
+{
+    QString nazwa = QFileDialog::getSaveFileName(this, "Podaj nazwę pliku do zapisu.");
+    QFile plik(nazwa);
+    if(!plik.open(QFile::WriteOnly)) {
+        QMessageBox::warning(this, "Błąd", QString("Błąd podczas zapisu: Nie można zapisać do pliku '") + nazwa + "'.");
+        return;
+    }
+    QTextStream out(&plik);
+    for(int i = 0; i < symulacja.zapisaneDane().iloscPunktow(); ++i) {
+        out << symulacja.zapisaneDane().minima()[i] << "\t";
+        out << symulacja.zapisaneDane().maksima()[i]<< "\t";
+        out << symulacja.zapisaneDane().srednie()[i]<< "\t";
+        out << symulacja.zapisaneDane().odchylenia()[i]<< "\n";
     }
 }

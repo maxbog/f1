@@ -26,6 +26,7 @@ public:
     QTimer timer;
 
 private slots:
+    void on_pushEksport_clicked();
     void on_pushWszystko_clicked();
     void on_pushNazwy_clicked();
     void on_buttonWyniki_clicked();
