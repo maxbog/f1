@@ -38,6 +38,12 @@ void MainWindow::on_buttonResetuj_clicked()
     timer.stop();
     symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ui->spinIloscKrokow->value(), ograniczenia, zaleznosci, trasa);
 
+    this->ui->najlepszyOcena->clear();
+    this->ui->tabelkaNajlepszy->setRowCount(0);
+    this->ui->tabelkaNajlepszy->setColumnCount(0);
+    this->ui->najlepszyOcenaGlobalnie->clear();
+    this->ui->tabelkaNajlepszyGlobalnie->setRowCount(0);
+    this->ui->tabelkaNajlepszyGlobalnie->setColumnCount(0);
     this->ui->progressKroki->setMaximum(this->ui->spinIloscKrokow->value());
     this->ui->progressKroki->setValue(0);
     this->ui->buttonStart->setEnabled(true);
@@ -329,4 +335,14 @@ void MainWindow::on_pushEksport_clicked()
         out << symulacja.zapisaneDane().srednie()[i]<< "\t";
         out << symulacja.zapisaneDane().odchylenia()[i]<< "\n";
     }
+}
+
+void MainWindow::on_spinMutacja_valueChanged(double value)
+{
+    symulacja.prawdMutacji(value);
+}
+
+void MainWindow::on_spinKrzyzowanie_valueChanged(double value)
+{
+    symulacja.prawdKrzyzowania(value);
 }

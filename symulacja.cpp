@@ -13,15 +13,15 @@ bool mniejszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
 }
 
 Symulacja::Symulacja()
-    : _max_ilosc_krokow(10000), _rodzaj_selekcji(0), _p_selekcji(1), _elita(false), _najlepszy(false), _wielopunktowe(false)
+    : _max_ilosc_krokow(10000), _rodzaj_selekcji(0), _p_selekcji(1), _p_mutacji(0.25), _p_krzyzowania(0.25),_elita(false), _najlepszy(false), _wielopunktowe(false)
 {
 }
 
 void Symulacja::krok() {
     ++_ilosc_krokow;
     selekcja();
-    krzyzowanie(0.25);
-    mutacja(0.25);
+    krzyzowanie();
+    mutacja();
     ocen_populacje();
     wybierz_najlepszego();
     zapisz_dane();
@@ -37,7 +37,7 @@ void Symulacja::zapisz_dane() {
             max = _populacja[i].ocena();
         }
         srednia += _populacja[i].ocena();
-        odchylenie += _populacja[i].ocena()*_populacja[i].ocena();
+        odchylenie += (double)_populacja[i].ocena()*(double)_populacja[i].ocena();
     }
     srednia /= _populacja.size();
     odchylenie = std::sqrt(odchylenie / _populacja.size() - srednia * srednia);
@@ -187,20 +187,20 @@ void Symulacja::selekcja() {
 
 }
 
-void Symulacja::mutacja(double prawdopodobienstwo) {
+void Symulacja::mutacja() {
     Random rand;
     for(int i = 0; i < _populacja.size(); ++i) {
-        if(rand.nastDouble() < prawdopodobienstwo) {
+        if(rand.nastDouble() < _p_mutacji) {
             _populacja[i] = _populacja[i].mutacja(_ogr, rand.nastInt(4) + 1);
         }
     }
 }
 
-void Symulacja::krzyzowanie(double prawdopodobienstwo) {
+void Symulacja::krzyzowanie() {
     Random rand;
     QVector<int> krzyzowane;
     for(int i = 0; i < _populacja.size(); ++i) {
-        if(rand.nastDouble() < prawdopodobienstwo) {
+        if(rand.nastDouble() < _p_krzyzowania) {
             krzyzowane.append(i);
         }
     }

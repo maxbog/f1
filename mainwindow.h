@@ -26,6 +26,8 @@ public:
     QTimer timer;
 
 private slots:
+    void on_spinKrzyzowanie_valueChanged(double );
+    void on_spinMutacja_valueChanged(double );
     void on_pushEksport_clicked();
     void on_pushWszystko_clicked();
     void on_pushNazwy_clicked();
