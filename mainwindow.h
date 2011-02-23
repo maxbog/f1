@@ -26,6 +26,11 @@ public:
     QTimer timer;
 
 private slots:
+    void on_spinKrzyzowanie_valueChanged(double );
+    void on_spinMutacja_valueChanged(double );
+    void on_pushEksport_clicked();
+    void on_pushWszystko_clicked();
+    void on_pushNazwy_clicked();
     void on_buttonWyniki_clicked();
     void on_comboSelekcja_currentIndexChanged(int index);
     void on_checkElita_toggled(bool checked);
@@ -33,10 +38,10 @@ private slots:
     void on_comboKrzyzowanie_currentIndexChanged(int index);
     void on_buttonLosuj_clicked();
     void on_spinPrawd_valueChanged(double );
-    void on_pushButton_8_clicked();
+    void on_pushZaleznosci_clicked();
     void on_comboSelekcja_activated(int );
-    void on_pushButton_2_clicked();
-    void on_pushButton_clicked();
+    void on_pushOgraniczenia_clicked();
+    void on_pushTrasa_clicked();
     void on_buttonStart_clicked();
 
     void on_buttonStop_clicked();
@@ -53,6 +58,7 @@ private:
     Symulacja symulacja;
     Trasa trasa;
     MacierzZaleznosci zaleznosci;
+    Nazwy nazwy;
     QVector<QPair<QTableWidgetItem,QTableWidgetItem> > ogr_dane;
 
     void odswiez_ograniczenia();

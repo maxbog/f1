@@ -2,7 +2,10 @@
 #include "ui_mainwindow.h"
 #include <QTableWidgetItem>
 
+#include <stdexcept>
+
 #include <QFileDialog>
+#include <QMessageBox>
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 #include <qwt_legend_item.h>
@@ -35,6 +38,12 @@ void MainWindow::on_buttonResetuj_clicked()
     timer.stop();
     symulacja.inicjuj(ui->spinWielkoscPopulacji->value(), ui->spinIloscKrokow->value(), ograniczenia, zaleznosci, trasa);
 
+    this->ui->najlepszyOcena->clear();
+    this->ui->tabelkaNajlepszy->setRowCount(0);
+    this->ui->tabelkaNajlepszy->setColumnCount(0);
+    this->ui->najlepszyOcenaGlobalnie->clear();
+    this->ui->tabelkaNajlepszyGlobalnie->setRowCount(0);
+    this->ui->tabelkaNajlepszyGlobalnie->setColumnCount(0);
     this->ui->progressKroki->setMaximum(this->ui->spinIloscKrokow->value());
     this->ui->progressKroki->setValue(0);
     this->ui->buttonStart->setEnabled(true);
@@ -60,11 +69,11 @@ void MainWindow::tykniecie()
     ui->najlepszyOcena->setText(QString::number(-najlepszy.ocena()));
     ui->tabelkaNajlepszy->setColumnCount(2);
     ui->tabelkaNajlepszy->setRowCount(najlepszy.ileParametrow());
-    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Warto��");
+    ui->tabelkaNajlepszy->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartość");
     ui->tabelkaNajlepszy->setColumnWidth(0,70);
     ui->tabelkaNajlepszy->setColumnWidth(1,70);
     for(int i = 0; i < najlepszy.ileParametrow(); ++i) {
-        QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+        QTableWidgetItem *numer = new QTableWidgetItem(nazwy.parametrSamochodu(i));
         QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszy.Parametr(i)));
         ui->tabelkaNajlepszy->setItem(i,0,numer);
         ui->tabelkaNajlepszy->setItem(i,1,par);
@@ -76,11 +85,11 @@ void MainWindow::tykniecie()
         ui->najlepszyOcenaGlobalnie->setText(QString::number(-najlepszyGlobalnie.ocena()));
         ui->tabelkaNajlepszyGlobalnie->setColumnCount(2);
         ui->tabelkaNajlepszyGlobalnie->setRowCount(najlepszyGlobalnie.ileParametrow());
-        ui->tabelkaNajlepszyGlobalnie->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Warto��");
+        ui->tabelkaNajlepszyGlobalnie->setHorizontalHeaderLabels(QStringList() << "Parametr" << "Wartość");
         ui->tabelkaNajlepszyGlobalnie->setColumnWidth(0,70);
         ui->tabelkaNajlepszyGlobalnie->setColumnWidth(1,70);
         for(int i = 0; i < najlepszyGlobalnie.ileParametrow(); ++i) {
-            QTableWidgetItem *numer = new QTableWidgetItem(QString::number(i));
+            QTableWidgetItem *numer = new QTableWidgetItem(nazwy.parametrSamochodu(i));
             QTableWidgetItem *par = new QTableWidgetItem(QString::number(najlepszyGlobalnie.Parametr(i)));
             ui->tabelkaNajlepszyGlobalnie->setItem(i,0,numer);
             ui->tabelkaNajlepszyGlobalnie->setItem(i,1,par);
@@ -95,21 +104,29 @@ void MainWindow::tykniecie()
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushOgraniczenia_clicked()
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik ograniczen", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
-        ograniczenia.Wczytaj(plik);
-        odswiez_ograniczenia();
+        try {
+            ograniczenia.Wczytaj(plik);
+            odswiez_ograniczenia();
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania ograniczeń: ") + error.what());
+        }
     }
 }
 
-void MainWindow::on_pushButton_clicked() // wczytywanie trasy
+void MainWindow::on_pushTrasa_clicked() // wczytywanie trasy
 {
     QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik trasy", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
-        trasa.Wczytaj(plik);
-        odswiez_trase();
+        try {
+            trasa.Wczytaj(plik);
+            odswiez_trase();
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania trasy: ") + error.what());
+        }
     }
 }
 
@@ -137,11 +154,15 @@ void MainWindow::on_comboSelekcja_activated(int )
 
 }
 
-void MainWindow::on_pushButton_8_clicked()
+void MainWindow::on_pushZaleznosci_clicked()
 {
-    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik zale�no�ci", ".", "Pliki tekstowe (*.txt)");
+    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik zależności", ".", "Pliki tekstowe (*.txt)");
     if(plik != "") {
-        zaleznosci.Wczytaj(plik);
+        try {
+            zaleznosci.Wczytaj(plik);
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania zależności: ") + error.what());
+        }
     }
 }
 
@@ -155,6 +176,14 @@ void MainWindow::on_buttonLosuj_clicked()
     trasa.Losuj(ui->spinIleOdc->value(), ui->spinIleParamDr->value());
     ograniczenia.Losuj(ui->spinIleParPoj->value());
     zaleznosci.Losuj(ui->spinIleParamDr->value(),ograniczenia.wekt());
+
+    nazwy.wyczysc();
+    for(int i = 0; i < ui->spinIleParPoj->value(); ++i) {
+        nazwy.dodajParSamochodu(QString::number(i));
+    }
+    for(int i = 0; i < ui->spinIleParamDr->value(); ++i) {
+        nazwy.dodajParTrasy(QString::number(i));
+    }
 
     odswiez_trase();
     odswiez_ograniczenia();
@@ -188,7 +217,7 @@ void MainWindow::odswiez_ograniczenia() {
     ui->tabelkaOgraniczenia->setColumnWidth(0,70);
     ui->tabelkaOgraniczenia->setColumnWidth(1,150);
     for(int i = 0; i < ograniczenia.ileParametrow(); ++i) {
-        ui->tabelkaOgraniczenia->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
+        ui->tabelkaOgraniczenia->setItem(i, 0, new QTableWidgetItem(nazwy.parametrSamochodu(i)));
         QString tmp = QString("%1").arg(ograniczenia.Parametr(i,0));
         for(int j = 1; j < ograniczenia.ileOgraniczen(i); ++j) {
             tmp.append(QString(", %1").arg(ograniczenia.Parametr(i,j)));
@@ -203,6 +232,7 @@ void MainWindow::odswiez_trase() {
     ui->tabelkaTrasa->setRowCount(trasa.ileOdcinkow());
     for(int i=0; i<trasa.ileOdcinkow(); ++i) {
         for(int j=0; j<trasa.ileParametrow(); ++j) {
+            ui->tabelkaTrasa->setHorizontalHeaderItem(j, new QTableWidgetItem(nazwy.parametrTrasy(j)));
             ui->tabelkaTrasa->setColumnWidth(j,40);
             QTableWidgetItem *element = new QTableWidgetItem(QString::number(trasa.Parametr(i,j)),0);
             ui->tabelkaTrasa->setItem(i,j,element);
@@ -225,4 +255,94 @@ void MainWindow::on_buttonWyniki_clicked()
 
     w.show();
 
+}
+
+void MainWindow::on_pushNazwy_clicked()
+{
+    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik z nazwami", ".", "Pliki tekstowe (*.txt)");
+    if(plik != "") {
+        try {
+            nazwy.Wczytaj(plik);
+            ui->pushTrasa->setEnabled(true);
+            ui->pushOgraniczenia->setEnabled(true);
+            ui->pushZaleznosci->setEnabled(true);
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podszas wczytywania nazw: ") + error.what());
+        }
+    }
+}
+
+void MainWindow::on_pushWszystko_clicked()
+{
+    QString plik = QFileDialog::getOpenFileName(this, "Wybierz plik z danymi", ".", "Pliki tekstowe (*.txt)");
+    if(plik != "") {
+        QFile file(plik);
+        if(!file.open(QFile::ReadOnly)) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania: Plik '") + plik + "' nie istnieje.");
+            return;
+        }
+
+        QTextStream in(&file);
+
+        try {
+            nazwy.Wczytaj(in.readLine());
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania nazw: ") + error.what());
+            return;
+        }
+
+        try {
+            trasa.Wczytaj(in.readLine());
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania trasy: ") + error.what());
+            return;
+        }
+
+        try {
+            ograniczenia.Wczytaj(in.readLine());
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania ograniczeń: ") + error.what());
+            return;
+        }
+
+        try {
+            zaleznosci.Wczytaj(in.readLine());
+        } catch(std::runtime_error error) {
+            QMessageBox::warning(this, "Błąd", QString("Błąd podczas wczytywania zależności: ") + error.what());
+            return;
+        }
+
+        odswiez_ograniczenia();
+        odswiez_trase();
+        ui->pushTrasa->setEnabled(true);
+        ui->pushOgraniczenia->setEnabled(true);
+        ui->pushZaleznosci->setEnabled(true);
+    }
+}
+
+void MainWindow::on_pushEksport_clicked()
+{
+    QString nazwa = QFileDialog::getSaveFileName(this, "Podaj nazwę pliku do zapisu.");
+    QFile plik(nazwa);
+    if(!plik.open(QFile::WriteOnly)) {
+        QMessageBox::warning(this, "Błąd", QString("Błąd podczas zapisu: Nie można zapisać do pliku '") + nazwa + "'.");
+        return;
+    }
+    QTextStream out(&plik);
+    for(int i = 0; i < symulacja.zapisaneDane().iloscPunktow(); ++i) {
+        out << symulacja.zapisaneDane().minima()[i] << "\t";
+        out << symulacja.zapisaneDane().maksima()[i]<< "\t";
+        out << symulacja.zapisaneDane().srednie()[i]<< "\t";
+        out << symulacja.zapisaneDane().odchylenia()[i]<< "\n";
+    }
+}
+
+void MainWindow::on_spinMutacja_valueChanged(double value)
+{
+    symulacja.prawdMutacji(value);
+}
+
+void MainWindow::on_spinKrzyzowanie_valueChanged(double value)
+{
+    symulacja.prawdKrzyzowania(value);
 }

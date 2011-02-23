@@ -22,10 +22,10 @@ void wykres::ustaw_czas(int t) {
 
 void wykres::dodaj_naj(double d) {
     QwtPlotMarker *mY = new QwtPlotMarker();
-    mY->setLabel(QString::fromLatin1("Osobnik najlepszy = ")+QString::number(d));
+    mY->setLabel(QString::fromLatin1("Osobnik najlepszy = ")+QString::number(-d));
     mY->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
     mY->setLineStyle(QwtPlotMarker::HLine);
-    mY->setYValue(d);
+    mY->setYValue(-d);
     mY->attach(this);
 }
 

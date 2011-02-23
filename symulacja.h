@@ -13,8 +13,8 @@ public:
     void inicjuj(unsigned wielkosc_populacji, unsigned max_ilosc_krokow, const OgraniczeniaF1& ogr, const MacierzZaleznosci&, const Trasa&);
     void ocen_populacje();
     void selekcja();
-    void mutacja(double prawdopodobienstwo);
-    void krzyzowanie(double prawdopodobienstwo);
+    void mutacja();
+    void krzyzowanie();
     Chromosom najlepszyWSymulacji() const { return _najlepszyWSymulacji; }
     Chromosom najlepszyGlobalnie() const { return _najlepszyGlobalnie; }
     void prawdSelekcji(double p_turniejowe) { _p_selekcji = p_turniejowe; }
@@ -32,6 +32,12 @@ public:
     bool zakonczona() const { return _ilosc_krokow >= _max_ilosc_krokow; }
     Dane zapisaneDane() const { return _zapisaneDane; }
 
+    double prawdMutacji() const { return _p_mutacji; }
+    void prawdMutacji(double p_mutacji) { _p_mutacji = p_mutacji; }
+
+    double prawdKrzyzowania() const { return _p_krzyzowania; }
+    void prawdKrzyzowania(double p_krzyzowania) { _p_krzyzowania = p_krzyzowania; }
+
 private:
     QVector<Chromosom> _populacja;
     OgraniczeniaF1 _ogr;
@@ -41,6 +47,8 @@ private:
     unsigned _max_ilosc_krokow;
     int _rodzaj_selekcji;
     double _p_selekcji;
+    double _p_mutacji;
+    double _p_krzyzowania;
     bool _elita;
     bool _najlepszy;
     bool _wielopunktowe;

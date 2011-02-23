@@ -1,0 +1,4 @@
+nazwy.txt
+droga.txt
+ograniczeniaf1.txt
+zaleznosci.txt
