@@ -141,8 +141,8 @@ void Symulacja::selekcja() {
             int a, b;
             double p1, p2;
             QVector<Chromosom> nowa_populacja;
-            nowa_populacja.append(Chromosom()); // potem zostanie zast¹piony najlepszym
-            for(int i=0;i+1<_populacja.size();++i) {
+          //  nowa_populacja.append(Chromosom()); // potem zostanie zast¹piony najlepszym
+            for(int i=0;i<_populacja.size();++i) {
 
                 a = rand.nastInt(_populacja.size()-1);
                 b = rand.nastInt(_populacja.size()-1);
