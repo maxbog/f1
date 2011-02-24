@@ -24,30 +24,8 @@ protected:
     enum { M = 397 };
 
     uint32 stan[N];
-    uint32 *nastepny;
-    int jeszcze;
+    int mti;
     void inicjujStan(uint32 ziarno);
-    void przeladuj();
-
-    uint32 hiBit(uint32 u) const {
-        return u & 0x80000000UL;
-    }
-    uint32 loBit(uint32 u) const {
-        return u & 0x00000001UL;
-    }
-    uint32 loBits(uint32 u) const {
-        return u & 0x7fffffffUL;
-    }
-    uint32 miksuj(uint32 u, uint32 v) const {
-        return hiBit(u) | loBits(v);
-    }
-    uint32 magia(uint32 u) const {
-        return loBit(u) ? 0x9908b0dfUL : 0x0UL;
-    }
-    uint32 twist(uint32 m, uint32 s0, uint32 s1) const {
-        return m ^ (miksuj(s0,s1) >> 1) ^ magia(s1);
-    }
-
     static uint32 hash(std::time_t t, std::clock_t c);
 
 };

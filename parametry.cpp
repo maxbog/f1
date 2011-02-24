@@ -60,7 +60,7 @@ void Trasa::Losuj(int odc, int param) {
 }
 
 int Trasa::Parametr(int o, int p) const {
-    return wektOdcinki.at(o).at(p);
+    return wektOdcinki[o][p];
 }
 
 
@@ -127,7 +127,7 @@ void OgraniczeniaF1::Losuj(int param) {
 }
 
 int OgraniczeniaF1::Parametr(int i, int j) const {
-    return wektOgraniczenia.at(i).at(j);
+    return wektOgraniczenia[i][j];
 }
 
 MacierzZaleznosci::MacierzZaleznosci(): wektZaleznosci() { }
@@ -243,7 +243,7 @@ void MacierzZaleznosci::Losuj(int param_dr, const QVector<QVector <int> > & ogr)
 int MacierzZaleznosci::Parametr(int param_poj,int param_droga,int wsp_poj,int wsp_drogi) const {
     int id_wsp_drogi = wsp_drogi-1;
     int id_wsp_poj = wspPoj[param_poj].indexOf(wsp_poj);
-    return wektZaleznosci.at(param_poj).at(param_droga).at(id_wsp_poj).at(id_wsp_drogi);
+    return wektZaleznosci[param_poj][param_droga][id_wsp_poj][id_wsp_drogi];
 }
 
 Nazwy::Nazwy()

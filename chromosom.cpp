@@ -89,9 +89,9 @@ QPair<Chromosom, Chromosom> Chromosom::krzyzuj(const Chromosom& inny, bool wielo
 void Chromosom::ocen(const OgraniczeniaF1& ogr, const Trasa& trasa, const MacierzZaleznosci& zaleznosci) {
     _ocena = 0;
 
-    for(int i=0; i<ogr.ileParametrow(); ++i) {
-        for(int j=0; j< trasa.ileOdcinkow(); ++j) {
-            for(int k=0; k< trasa.ileParametrow(); ++k)
+    for(int i=0; i < ogr.ileParametrow(); ++i) {
+        for(int j=0; j < trasa.ileOdcinkow(); ++j) {
+            for(int k=0; k < trasa.ileParametrow(); ++k)
                 _ocena += zaleznosci.Parametr(i,k,Parametr(i),trasa.Parametr(j,k));
         }
     }
@@ -99,7 +99,7 @@ void Chromosom::ocen(const OgraniczeniaF1& ogr, const Trasa& trasa, const Macier
 }
 
 int Chromosom::Parametr(int i) const {
-    return _parametry.at(i);
+    return _parametry[i];
 }
 
 struct RandomFunctor {
