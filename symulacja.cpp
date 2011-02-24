@@ -4,6 +4,8 @@
 #include <limits>
 #include <cmath>
 
+#include <QtConcurrentMap>
+
 bool wiekszy_ocena(const Chromosom& ch1,const Chromosom& ch2) {
     return ch1.ocena() > ch2.ocena();
 }
@@ -78,10 +80,23 @@ void Symulacja::inicjuj(unsigned wielkosc_populacji, unsigned max_ilosc_krokow, 
     wybierz_najlepszego();
 }
 
-void Symulacja::ocen_populacje() {
-    for(int i = 0; i < _populacja.size(); ++i) {
-        _populacja[i].ocen(_ogr, _trasa, _zaleznosci);
+struct ocen_osobnika_functor {
+    OgraniczeniaF1 *_ogr;
+    Trasa *_trasa;
+    MacierzZaleznosci *_zal;
+    ocen_osobnika_functor(OgraniczeniaF1 *ogr, Trasa *trasa, MacierzZaleznosci *zal)
+        : _ogr(ogr), _trasa(trasa), _zal(zal) {
+
     }
+
+    void operator()(Chromosom &ch) {
+        ch.ocen(*_ogr, *_trasa, *_zal);
+    }
+};
+
+void Symulacja::ocen_populacje() {
+    ocen_osobnika_functor ocen(&_ogr, &_trasa, &_zaleznosci);
+    QtConcurrent::blockingMap(_populacja, ocen);
 }
 
 void Symulacja::selekcja() {
@@ -187,13 +202,28 @@ void Symulacja::selekcja() {
 
 }
 
-void Symulacja::mutacja() {
-    Random rand;
-    for(int i = 0; i < _populacja.size(); ++i) {
-        if(rand.nastDouble() < _p_mutacji) {
-            _populacja[i] = _populacja[i].mutacja(_ogr, rand.nastInt(4) + 1);
+
+struct mutacja_osobnika_functor {
+    OgraniczeniaF1 *_ogr;
+    Random *_rand;
+    double _p_mutacji;
+    mutacja_osobnika_functor(double p_mutacji, OgraniczeniaF1 *ogr, Random *rand)
+        : _ogr(ogr), _rand(rand), _p_mutacji(p_mutacji) {
+
+    }
+
+    void operator()(Chromosom &ch) {
+        if(_rand->nastDouble() < _p_mutacji) {
+            ch.mutacja(*_ogr, _rand->nastInt(4) + 1);
         }
     }
+};
+
+void Symulacja::mutacja() {
+    Random rand;
+
+    mutacja_osobnika_functor mutuj(_p_mutacji, &_ogr, &rand);
+    QtConcurrent::blockingMap(_populacja, mutuj);
 }
 
 void Symulacja::krzyzowanie() {

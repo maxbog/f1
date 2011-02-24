@@ -45,15 +45,13 @@ Chromosom Chromosom::losuj(const OgraniczeniaF1& ogr) {
     return nowy;
 }
 
-Chromosom Chromosom::mutacja(const OgraniczeniaF1& ogr, unsigned ileGenow) const {
-    Chromosom nowy(*this);
+void Chromosom::mutacja(const OgraniczeniaF1& ogr, unsigned ileGenow) {
     ileGenow = std::min((int)ileGenow, _parametry.size());
     Random rand;
     QVector<int> liczby = losoweLiczby(ileGenow, _parametry.size()-1);
     for(int i=0;i< liczby.count();++i) {
-        nowy._parametry[liczby[i]] = ogr.Parametr(liczby[i],rand.nastInt(ogr.ileOgraniczen(liczby[i])-1));
+        _parametry[liczby[i]] = ogr.Parametr(liczby[i],rand.nastInt(ogr.ileOgraniczen(liczby[i])-1));
     }
-    return nowy;
 }
 
 QPair<Chromosom, Chromosom> Chromosom::krzyzuj(const Chromosom& inny, bool wielopunktowe, int ilosc) const {
